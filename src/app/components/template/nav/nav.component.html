@@ -1,0 +1,45 @@
+<mat-sidenav-container class="container">
+    <mat-sidenav class="side" mode="side" opened>
+        <mat-nav-list>
+            <a routerLink="/home" mat-list-item>
+                <i class="material-icons">home</i>
+                Home
+            </a>
+        </mat-nav-list>
+        <mat-nav-list>
+            <a routerLink="/categorias" mat-list-item>
+                <i class="material-icons">menu_book</i>
+                Categorias
+            </a>
+        </mat-nav-list>
+        <mat-nav-list>
+            <a routerLink="/doacoes" mat-list-item>
+                <i class="material-icons">volunteer_activism</i>
+                Doações
+            </a>
+        </mat-nav-list>
+        <mat-nav-list>
+            <a mat-list-item>
+                <i class="material-icons">child_care</i>
+                Orfanatos
+            </a>
+        </mat-nav-list>
+        <mat-nav-list>
+            <a mat-list-item>
+                <i class="material-icons">person</i>
+                Usuários
+            </a>
+        </mat-nav-list>
+
+        <mat-nav-list>
+            <a (click)="logout()" mat-list-item>
+                <i class="material-icons">logout</i>
+                Sair
+            </a>
+        </mat-nav-list>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

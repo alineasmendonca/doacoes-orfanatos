@@ -1,0 +1,12 @@
+0000000000000000000000000000000000000000 d206814f6045647c3173e0ddf1263e5a8d85e2c0 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646168290 -0300	commit (initial): initial commit
+d206814f6045647c3173e0ddf1263e5a8d85e2c0 9341272c07043a984b7bd2cc4ad11a6230d8ab66 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646168765 -0300	commit: Versao inicial do projeto frontend
+9341272c07043a984b7bd2cc4ad11a6230d8ab66 1eef510ba7ca2a40ba5e6334b326d4aee6703305 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646169932 -0300	commit: Configuracao do Angular Material no projeto
+1eef510ba7ca2a40ba5e6334b326d4aee6703305 b1b9f544a2b3b22da7f6595046aed8a1b2b7b3c2 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646197032 -0300	commit: Inclusao da versao inicial do header, footer e nav da aplicaçao
+b1b9f544a2b3b22da7f6595046aed8a1b2b7b3c2 a9d626d8e929788a2032c1a69dfbe6803e93bdd8 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646335543 -0300	commit: Criacao do componente read de categoria
+a9d626d8e929788a2032c1a69dfbe6803e93bdd8 dbf362f350b15ccc5a578581a892287dfc6fbc4c alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646433148 -0300	commit: Implementacao do cadastro de categorias no frontend
+dbf362f350b15ccc5a578581a892287dfc6fbc4c d6dcce73de082ca9cfab0eeea1c399d83f1e991e alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646447930 -0300	commit: Implementacao da remocao de categorias
+d6dcce73de082ca9cfab0eeea1c399d83f1e991e 95e9327d088050c49d167dd309ff99ed598afaef alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646449402 -0300	commit: Implementacao do update para categorias
+95e9327d088050c49d167dd309ff99ed598afaef a51c95e9c4231f08e4acc15546becfcfa69105dc alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1646869717 -0300	commit: Implementacao da autenticacao
+a51c95e9c4231f08e4acc15546becfcfa69105dc 181e621e9741201edf54319a2dadb3f96d2f2a77 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1647046603 -0300	commit: Implementacao de versao inicial de cadastro de doacao
+181e621e9741201edf54319a2dadb3f96d2f2a77 ed243805678df7580babdfd01a488de3c2219ac7 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1647113624 -0300	commit: Implementacao da alteracao de doacao
+ed243805678df7580babdfd01a488de3c2219ac7 be905b22247103210ddb66f591229d68557f7d87 alineasmendonca <aline.alves.silva.mendonca@gmail.com> 1647115003 -0300	commit: Implementacao da remocao de doacoes

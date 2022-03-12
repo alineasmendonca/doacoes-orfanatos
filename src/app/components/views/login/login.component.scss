@@ -1,0 +1,44 @@
+/*form{
+    text-align: center;
+    width: 50%;
+    height: 50%;
+    ;
+    margin: 2rem auto 0 auto;
+}
+
+h1{
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 3rem;
+}*/
+
+.campo{
+    width: 100%;
+}
+
+.buttons{
+    text-align: center;
+}
+
+button {
+    margin-right: .5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+
+.example-card {
+   max-width: 400px;
+   position: absolute;
+     left: 50%;
+     top: 50%;
+     -moz-transform: translate(-50%, -50%);
+     -webkit-transform: translate(-50%, -50%);
+     -ms-transform: translate(-50%, -50%);
+     -o-transform: translate(-50%, -50%);
+     transform: translate(-50%, -50%);
+}
+  
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}

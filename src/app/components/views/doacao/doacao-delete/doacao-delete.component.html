@@ -1,0 +1,18 @@
+<form>
+    <h1>EXCLUIR DOAÇÃO</h1>
+    <mat-form-field class="form">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput [(ngModel)]="doacao.descricao"type="text" name="descricao" disabled></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="form">
+        <mat-label>Quantidade</mat-label>
+        <input matInput [(ngModel)]="doacao.quantidade" type="number" name="quantidade" disabled>
+    </mat-form-field>
+    <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
+
+    <div class="buttons">
+        <button (click)="excluirDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">EXCLUIR</button>
+        <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">CANCELAR</button>
+    </div>
+</form>

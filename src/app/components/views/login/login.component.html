@@ -1,0 +1,97 @@
+<mat-card class="example-card" style="text-align: center;">
+    <!--<mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Shiba Inu</mat-card-title>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+    <mat-card-content>
+        <div>
+            <mat-form-field class="campo">
+                <mat-label>Login</mat-label>
+                <input matInput [(ngModel)]="username" type="text" name="login" placeholder="Digite seu login">
+            </mat-form-field>
+
+            <mat-form-field class="campo" *ngIf="cadastrando">
+                <mat-label>Nome Completo</mat-label>
+                <input matInput [(ngModel)]="name" type="text" name="nome" placeholder="Digite seu nome completo">
+            </mat-form-field>
+
+
+            <mat-form-field class="campo" *ngIf="cadastrando">
+                <mat-label>Telefone</mat-label>
+                <input matInput [(ngModel)]="phone" type="text" name="telefone" placeholder="Digite seu telefone">
+            </mat-form-field>
+
+            <mat-form-field class="campo" *ngIf="cadastrando">
+                <mat-label>E-mail</mat-label>
+                <input matInput [(ngModel)]="email" type="text" name="email" placeholder="Digite seu e-mail">
+            </mat-form-field>
+
+            <mat-form-field class="campo">
+                <mat-label>Senha</mat-label>
+                <input matInput [(ngModel)]="password" type="text" name="password" placeholder="Digite sua senha">
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions class="buttons">
+        <button (click)="onSubmit()" class="mat-elevation-z8" mat-stroked-button color="primary"
+            *ngIf="!cadastrando">ENTRAR</button>
+        <button (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button color="primary"
+            *ngIf="cadastrando">CONFIRMAR</button>
+        <button (click)="cancelaCadastro()" class="mat-elevation-z8" mat-stroked-button color="warn"
+            *ngIf="cadastrando">CANCELAR</button>
+        <button (click)="preparaCadastrar($event)" class="mat-elevation-z8" mat-stroked-button color="primary"
+            *ngIf="!cadastrando">CADASTRAR</button>
+    </mat-card-actions>
+</mat-card>
+
+
+
+<!--<form #loginForm="ngForm" (submit)="onSubmit();">
+    <mat-form-field class="form">
+        <mat-label>Login</mat-label>
+        <input matInput [(ngModel)]="username" type="text" name="login" placeholder="Digite seu login">
+    </mat-form-field>
+
+    <mat-form-field class="form" *ngIf="cadastrando">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput [(ngModel)]="name" type="text" name="nome" placeholder="Digite seu nome completo">
+    </mat-form-field>
+
+
+    <mat-form-field class="form" *ngIf="cadastrando">
+        <mat-label>Telefone</mat-label>
+        <input matInput [(ngModel)]="phone" type="text" name="telefone" placeholder="Digite seu telefone">
+    </mat-form-field>
+
+    <mat-form-field class="form" *ngIf="cadastrando">
+        <mat-label>E-mail</mat-label>
+        <input matInput [(ngModel)]="email" type="text" name="email" placeholder="Digite seu e-mail">
+    </mat-form-field>
+
+    <mat-form-field class="form">
+        <mat-label>Senha</mat-label>
+        <input matInput [(ngModel)]="password" type="text" name="password" placeholder="Digite sua senha">
+    </mat-form-field>
+
+    <div class="buttons">
+        <button type="submit" class="mat-elevation-z8" mat-stroked-button color="primary"
+            *ngIf="!cadastrando">ENTRAR</button>
+        <button (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button color="primary"
+            *ngIf="cadastrando">CONFIRMAR</button>
+        <button (click)="cancelaCadastro()" class="mat-elevation-z8" mat-stroked-button color="warn"
+            *ngIf="cadastrando">CANCELAR</button>
+        <button (click)="preparaCadastrar($event)" class="mat-elevation-z8" mat-stroked-button color="primary"
+            *ngIf="!cadastrando">CADASTRAR</button>
+    </div>
+
+    <div>
+        <div>
+            <a href="#" (click)="preparaCadastrar($event)">
+                Não possui usuário? Cadastre-se!
+            </a>
+        </div>
+    </div>
+
+</form>-->
