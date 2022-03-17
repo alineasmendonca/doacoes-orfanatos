@@ -60,7 +60,7 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   retornaMensagemDeErroDescricao() {
-    if(!this.descricao){
+    if(!this.descricao.value){
       return 'O campo Descrição é obrigatório.';
     }
     if(this.descricao.invalid){
@@ -70,7 +70,7 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   retornaMensagemDeErroQuantidade() {
-    if(!this.quantidade){
+    if(!this.quantidade.value){
       return 'O campo Quantidade é obrigatório.';
     }
     if(this.quantidade.invalid){
