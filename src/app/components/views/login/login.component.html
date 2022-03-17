@@ -36,7 +36,7 @@
 
                 <mat-form-field class="campo">
                     <mat-label>Senha</mat-label>
-                    <input matInput [formControl]="senha" [(ngModel)]="password" type="text" name="password"
+                    <input matInput [formControl]="senha" [(ngModel)]="password" type="password" name="password"
                         placeholder="Digite sua senha" required>
                     <mat-error *ngIf="senha.invalid">Senha obrigatória</mat-error>
                 </mat-form-field>
