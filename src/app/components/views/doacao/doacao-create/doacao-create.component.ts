@@ -46,8 +46,8 @@ export class DoacaoCreateComponent implements OnInit {
     if(!this.descricao){
       return 'O campo Descrição é obrigatório.';
     }
-    if(this.quantidade.invalid){
-      return 'O campo Quantidade deve ser maior do que zero.';
+    if(this.descricao.invalid){
+      return 'O campo Descrição deve ter pelo menos 3 caracteres.';
     }
     return false;
   }
