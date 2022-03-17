@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -21,7 +22,8 @@ export class AuthService {
   expired : any;
   username : any;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+    private snack: MatSnackBar) {
     this.getUser();
    }
 
@@ -128,6 +130,14 @@ export class AuthService {
 
   delete(username: string): Observable<any> {
     return this.http.delete<any>(`${this.apiURL}/${username}`);
+  }
+
+  mensagem(str: string): void {
+    this.snack.open(`${str}`, 'OK', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 5000
+    });
   }
 
 }

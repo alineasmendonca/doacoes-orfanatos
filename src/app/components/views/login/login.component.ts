@@ -1,3 +1,4 @@
+import { FormControl, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth-service.service';
@@ -18,6 +19,8 @@ export class LoginComponent {
   cadastrando: boolean = false;
   mensagemSucesso: string = '';
   errors: String[] = new Array();
+  login = new FormControl('', [Validators.required]);
+  senha = new FormControl('', [Validators.required]);
 
   constructor(private router: Router,
     private authService : AuthService) { }
@@ -31,7 +34,7 @@ export class LoginComponent {
             localStorage.setItem('access_token', access_token)
             this.router.navigate(['home']);
           }, (err) => {
-            alert('Erroooooo');
+            this.authService.mensagem('Login ou Senha inválida.');
             console.error(err);
             this.errors = ['Usuário e/ou senha incorreto(s).']
           })
