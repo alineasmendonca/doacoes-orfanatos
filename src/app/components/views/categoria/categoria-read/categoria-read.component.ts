@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class CategoriaReadComponent implements OnInit {
   categorias: Categoria[] = [];
   displayedColumns: string[] = ['id', 'nome', 'descricao', 'doacoes', 'acoes'];
+  filtroCategoria: Categoria = new Categoria();
 
   constructor(private service: CategoriaService,
     private router: Router) { }
@@ -21,9 +22,20 @@ export class CategoriaReadComponent implements OnInit {
   }
 
   findAll(): void {
-    this.service.findAll().subscribe(resposta => {
+    let filtroTodos: Categoria = new Categoria();
+    this.service.findByFilters(filtroTodos).subscribe(resposta => {
       this.categorias = resposta;
     })
+  }
+
+  pesquisar(): void {
+    this.service.findByFilters(this.filtroCategoria).subscribe(resposta => {
+      this.categorias = resposta;
+    })
+  }
+
+  voltar(): void {
+    this.router.navigate(['home']);
   }
 
   incluirCategoria(): void {

@@ -5,16 +5,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from 'src/app/utils/utils-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService {
   baseUrl: string = environment.baseUrl;
+  public filtro: Categoria;
+  public headers = { 'Content-Type': 'application/json' };
 
   constructor(private http: HttpClient,
     private snack: MatSnackBar,
-    private authService: AuthService) { }
+    private authService: AuthService) { 
+      this.filtro = new Categoria();
+    }
 
   findById(id: number): Observable<Categoria>{
     const usernameAppUser = this.authService.getAuthenticadtedUser();
@@ -25,13 +30,16 @@ export class CategoriaService {
     return this.http.get<Categoria>(url);
   }
 
-  findAll(): Observable<Categoria[]>{
-    const usernameAppUser = this.authService.getAuthenticadtedUser();
-    const httpParams = new HttpParams()
-      .set("username", usernameAppUser);
-
+  public findByFilters(filtrosCategoria: Categoria): Observable<Categoria[]> {
     const url = `${this.baseUrl}/categorias`;
-    return this.http.get<Categoria[]>(url);
+    const queryParams: HttpParams = UtilsService.buildQueryParams(filtrosCategoria);
+
+    return this.http
+      .get<Categoria[]>(url,
+        {
+          headers: this.headers,
+          params: queryParams
+        });
   }
 
 

@@ -1,6 +1,5 @@
-export interface Categoria {
+export class Categoria {
     id?: number;
     nome?: string;
     descricao?: string;
-    quantidade?: number;
 }

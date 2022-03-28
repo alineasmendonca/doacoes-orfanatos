@@ -1,3 +1,4 @@
+import { FormControl, Validators } from '@angular/forms';
 import { Utils } from './../../../../utils/utils';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Categoria } from './../categoria-read/categoria.model';
@@ -11,11 +12,13 @@ import { take } from 'rxjs/operators'
   styleUrls: ['./categoria-update.component.scss']
 })
 export class CategoriaUpdateComponent implements OnInit {
+  descricao = new FormControl('', [Validators.required, Validators.minLength(5)]);
+  nome = new FormControl('', [Validators.required, Validators.minLength(3)]);
+
   categoria: Categoria = {
     id: 0,
     nome: '',
-    descricao: '',
-    quantidade: 0
+    descricao: ''
   }
   constructor(private service: CategoriaService,
     private route: ActivatedRoute,
@@ -58,6 +61,26 @@ export class CategoriaUpdateComponent implements OnInit {
 
   cancel(): void {
     this.router.navigate(['categorias']);
+  }
+
+  retornaMensagemDeErroDescricao(): string | boolean {
+    if(!this.descricao.value){
+      return 'O campo Descrição é obrigatório.';
+    }
+    if(this.descricao.invalid){
+      return 'O campo Descrição deve ter pelo menos 5 caracteres.';
+    }
+    return false;
+  }
+
+  retornaMensagemDeErroNome(): string | boolean {
+    if(!this.nome.value){
+      return 'O campo Nome é obrigatório.';
+    }
+    if(this.nome.invalid){
+      return 'O campo Nome deve ter pelo menos 3 caracteres.';
+    }
+    return false;
   }
 
 }

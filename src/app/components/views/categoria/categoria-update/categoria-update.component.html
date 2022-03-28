@@ -1,16 +1,21 @@
-<form>
-    <h1>ALTERAR CATEGORIA</h1>
-    <mat-form-field class="form">
-        <mat-label>Nome</mat-label>
-        <input matInput [(ngModel)]="categoria.nome" type="text" name="nome" placeholder="Ex.: Roupas">
-    </mat-form-field>
-    <mat-form-field class="form">
-        <mat-label>Descrição</mat-label>
-        <textarea matInput [(ngModel)]="categoria.descricao" type="text" name="descricao" placeholder="Categoria que representa roupas novas ou usadas"></textarea>
-    </mat-form-field>
+<div class="content">
+    <form>
+        <h1>ALTERAR CATEGORIA</h1>
+        <mat-form-field class="form">
+            <mat-label>Nome</mat-label>
+            <input matInput [(ngModel)]="categoria.nome" [formControl]="nome" type="text" name="nome" placeholder="Ex.: Roupas" required>
+            <mat-error *ngIf="nome.invalid">{{retornaMensagemDeErroNome()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="form">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput [(ngModel)]="categoria.descricao" [formControl]="descricao" type="text" name="descricao"
+                placeholder="Categoria que representa roupas novas ou usadas" required></textarea>
+            <mat-error *ngIf="descricao.invalid">{{retornaMensagemDeErroDescricao()}}</mat-error>I
+        </mat-form-field>
 
-    <div class="buttons">
-        <button (click)="update()" class="mat-elevation-z8" mat-stroked-button color="primary">SALVAR</button>
-        <button (click)="cancel()" class="mat-elevation-z8" mat-stroked-button color="warn">CANCELAR</button>
-    </div>
-</form>
+        <div class="buttons">
+            <button [disabled]="retornaMensagemDeErroDescricao() || retornaMensagemDeErroNome()" (click)="update()" class="mat-elevation-z8" mat-stroked-button color="primary">Salvar</button>
+            <button (click)="cancel()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
+        </div>
+    </form>
+</div>
