@@ -107,14 +107,14 @@ export class AuthService {
     return this.http.get<any>(`${this.apiURL}/${id}`);
   }
 
-  getUserByUsername(): Observable<Usuario> {
+  /*getUserByUsername(): Observable<Usuario> {
     let usernameAppUser = this.getAuthenticadtedUser();
     const httpParams = new HttpParams()
       .set("username", usernameAppUser);
     const url = this.apiURL + "/userByUsername?" + httpParams.toString();
     console.log(url);
     return this.http.get<any>(`${url}`);
-  }
+  }*/
 
   getUser(){
     console.log("Mais um teste");
