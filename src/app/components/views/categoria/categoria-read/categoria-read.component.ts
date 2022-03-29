@@ -1,3 +1,4 @@
+import { AuthService } from './../../../../auth.service';
 import { Categoria } from './categoria.model';
 import { CategoriaService } from './../categoria.service';
 import { Component, OnInit } from '@angular/core';
@@ -15,10 +16,12 @@ export class CategoriaReadComponent implements OnInit {
   filtroCategoria: Categoria = new Categoria();
 
   constructor(private service: CategoriaService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
     this.findAll();
+    this.authService.getAuthenticadtedUser();
   }
 
   findAll(): void {

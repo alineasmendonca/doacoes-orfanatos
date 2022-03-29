@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { User } from './components/views/user/user';
+import { Usuario } from './components/views/user/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AuthService {
   clientID: string = environment.clientId
   clientSecret: string = environment.clientSecret
   jwtHelper: JwtHelperService = new JwtHelperService
-  user: User = new User;
+  user: Usuario = new Usuario;
   tokenString : any;
   token : any;
   expired : any;
@@ -59,23 +59,25 @@ export class AuthService {
     this.token = '';
     this.username = '';
     this.expired = true;
-    this.user = new User();
+    this.user = new Usuario();
   }
 
   getAuthenticadtedUser() {
     this.token = this.obterToken();
     if (this.token) {
-      this.username = this.jwtHelper.decodeToken(this.token).user_name
+      this.username = this.jwtHelper.decodeToken(this.token).user_name;
+      console.log(this.username);
+      console.log('Usuario autenticado:', JSON.stringify( this.jwtHelper.decodeToken(this.token)));
       return this.username;
     }
     return null;
   }
 
-  save(user: User): Observable<any> {
+  save(user: Usuario): Observable<any> {
     return this.http.post<any>(this.apiURL, user);
   }
 
-  update(user: User): Observable<any> {
+  update(user: Usuario): Observable<any> {
     return this.http.put<any>(this.apiURL, user);
   }
 
@@ -94,22 +96,22 @@ export class AuthService {
 
   }
 
-  getAllUsers(): Observable<User[]> {
+  getAllUsers(): Observable<Usuario[]> {
 
     const url = this.apiURL;
     console.log(url);
     return this.http.get<any>(url);
   }
 
-  getUserById(id: number): Observable<User> {
+  getUserById(id: number): Observable<Usuario> {
     return this.http.get<any>(`${this.apiURL}/${id}`);
   }
 
-  getUserByUsername(): Observable<User> {
+  getUserByUsername(): Observable<Usuario> {
     let usernameAppUser = this.getAuthenticadtedUser();
     const httpParams = new HttpParams()
       .set("username", usernameAppUser);
-    const url = this.apiURL + "/userByUsername/?" + httpParams.toString();
+    const url = this.apiURL + "/userByUsername?" + httpParams.toString();
     console.log(url);
     return this.http.get<any>(`${url}`);
   }
@@ -119,11 +121,11 @@ export class AuthService {
     let usernameAppUser = this.getAuthenticadtedUser();
     const httpParams = new HttpParams()
       .set("username", usernameAppUser);
-    const url = this.apiURL + "/userByUsername/?" + httpParams.toString();
+    const url = this.apiURL + "/userByUsername?" + httpParams.toString();
     console.log(url);
     this.http.get<any>(`${url}`).subscribe(response => this.user = response);
     console.log("Aqui");
-    console.log(this.user);
+    console.log('Usuario:', JSON.stringify(this.user));
   }
 
   delete(username: string): Observable<any> {

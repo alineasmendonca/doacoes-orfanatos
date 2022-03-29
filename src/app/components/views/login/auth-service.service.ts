@@ -1,3 +1,4 @@
+import { Usuario } from './../user/usuario';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -51,8 +52,6 @@ export class AuthService {
       } else {
         return false;
       }
-
-
   }
 
   encerrarSessao() {
@@ -73,7 +72,7 @@ export class AuthService {
     return null;
   }
 
-  save(user: User): Observable<any> {
+  save(user: Usuario): Observable<any> {
     return this.http.post<any>(this.apiURL, user);
   }
 

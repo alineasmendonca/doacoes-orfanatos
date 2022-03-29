@@ -11,41 +11,85 @@
         </mat-card-header>
         <mat-card-content>
             <div>
-                <mat-form-field class="campo">
-                    <mat-label>Login</mat-label>
-                    <input matInput [formControl]="login" [(ngModel)]="username" type="text" name="login"
-                        placeholder="Digite seu login" required>
-                    <mat-error *ngIf="login.invalid">Login obrigatório</mat-error>
-                </mat-form-field>
 
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-label>Nome Completo</mat-label>
-                    <input matInput [(ngModel)]="name" type="text" name="nome" placeholder="Digite seu nome completo">
+                    <input matInput [(ngModel)]="usuario.nome" [formControl]="nomeCompletoFormControl" type="text"
+                        name="nome" placeholder="Digite seu nome completo" maxlength="100" required>
+                    <mat-error *ngIf="nomeCompletoFormControl.invalid">{{retornaMensagemErro(nomeCompletoFormControl,
+                        'Nome Completo', 10)}}</mat-error>
                 </mat-form-field>
 
+                <mat-form-field class="campo" *ngIf="cadastrando">
+                    <mat-label>Endereço</mat-label>
+                    <input matInput [(ngModel)]="usuario.endereco" [formControl]="enderecoFormControl" type="text"
+                        name="endereco" placeholder="Digite seu endereço" required>
+                    <mat-error *ngIf="enderecoFormControl.invalid">{{retornaMensagemErro(enderecoFormControl,
+                        'Endereço', 10)}}</mat-error>
+                </mat-form-field>
 
                 <mat-form-field class="campo" *ngIf="cadastrando">
-                    <mat-label>Telefone</mat-label>
-                    <input matInput [(ngModel)]="phone" type="text" name="telefone" placeholder="Digite seu telefone">
+                    <mat-label>Telefone Celular</mat-label>
+                    <input matInput [(ngModel)]="usuario.telefoneCelular" [formControl]="telefoneCelularFormControl"
+                        type="text" name="telefoneCelular" placeholder="Digite seu telefone celular" maxlength="11"
+                        required>
+                    <mat-error *ngIf="telefoneCelularFormControl.invalid">
+                        {{retornaMensagemErro(telefoneCelularFormControl, 'Telefone Celular', 10)}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="campo" *ngIf="cadastrando">
+                    <mat-label>Telefone Fixo</mat-label>
+                    <input matInput [(ngModel)]="usuario.telefoneFixo" [formControl]="telefoneFixoFormControl"
+                        type="text" name="telefoneFixo" maxlength="10" placeholder="Digite seu telefone fixo">
+                </mat-form-field>
+
+                <mat-form-field class="campo" *ngIf="cadastrando">
+                    <mat-label>Perfil</mat-label>
+                    <input matInput [(ngModel)]="usuario.perfil" [formControl]="perfilFormControl" type="text"
+                        name="perfil" placeholder="Digite seu perfil (1, 2 ou 3)" required>
+                    <mat-error *ngIf="perfilFormControl.invalid">{{retornaMensagemErro(perfilFormControl, 'Perfil',
+                        10)}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-label>E-mail</mat-label>
-                    <input matInput [(ngModel)]="email" type="text" name="email" placeholder="Digite seu e-mail">
+                    <input matInput [(ngModel)]="usuario.email" [formControl]="emailFormControl" type="text"
+                        name="email" placeholder="Digite seu e-mail" required>
+                    <mat-error *ngIf="emailFormControl.invalid">{{retornaMensagemErro(emailFormControl, 'E-mail', 10)}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="campo">
+                    <mat-label>Login</mat-label>
+                    <input matInput [(ngModel)]="usuario.username" [formControl]="loginFormControl" type="text"
+                        name="login" placeholder="Digite seu login" required>
+                    <mat-error *ngIf="loginFormControl.invalid">{{retornaMensagemErro(loginFormControl, 'Login', 8)}}
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="campo">
                     <mat-label>Senha</mat-label>
-                    <input matInput [formControl]="senha" [(ngModel)]="password" type="password" name="password"
-                        placeholder="Digite sua senha" required>
-                    <mat-error *ngIf="senha.invalid">Senha obrigatória</mat-error>
+                    <input matInput [(ngModel)]="usuario.senha" [formControl]="senhaFormControl" type="password"
+                        name="senha" placeholder="Digite sua senha" required>
+                    <mat-error *ngIf="senhaFormControl.invalid">{{retornaMensagemErro(senhaFormControl, 'Senha', 8)}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="campo" *ngIf="cadastrando">
+                    <mat-label>Confirmar Senha</mat-label>
+                    <input matInput [(ngModel)]="usuario.confirmacaoSenha" [formControl]="confirmacaoSenhaFormControl"
+                        type="password" name="confirmacaoSenha" placeholder="Confirme sua senha" required>
+                    <mat-error *ngIf="confirmacaoSenhaFormControl.invalid">
+                        {{retornaMensagemErro(confirmacaoSenhaFormControl, 'Confirmação Senha', 8)}}</mat-error>
                 </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions class="buttons">
-            <button [disabled]="login.invalid || senha.invalid" (click)="onSubmit()" class="mat-elevation-z8"
-                mat-stroked-button color="primary" *ngIf="!cadastrando">ENTRAR</button>
-            <button (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button color="primary"
+            <button [disabled]="loginFormControl.invalid || senhaFormControl.invalid" (click)="onSubmit()"
+                class="mat-elevation-z8" mat-stroked-button color="primary" *ngIf="!cadastrando">ENTRAR</button>
+            <button [disabled]="nomeCompletoFormControl.invalid || enderecoFormControl.invalid || emailFormControl.invalid || loginFormControl.invalid || 
+            telefoneCelularFormControl.invalid || telefoneFixoFormControl.invalid || perfilFormControl.invalid || senhaFormControl.invalid || confirmacaoSenhaFormControl.invalid"
+                (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button color="primary"
                 *ngIf="cadastrando">CONFIRMAR</button>
             <button (click)="cancelaCadastro()" class="mat-elevation-z8" mat-stroked-button color="warn"
                 *ngIf="cadastrando">CANCELAR</button>

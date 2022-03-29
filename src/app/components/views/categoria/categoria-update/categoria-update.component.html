@@ -10,7 +10,7 @@
             <mat-label>Descrição</mat-label>
             <textarea matInput [(ngModel)]="categoria.descricao" [formControl]="descricao" type="text" name="descricao"
                 placeholder="Categoria que representa roupas novas ou usadas" required></textarea>
-            <mat-error *ngIf="descricao.invalid">{{retornaMensagemDeErroDescricao()}}</mat-error>I
+            <mat-error *ngIf="descricao.invalid">{{retornaMensagemDeErroDescricao()}}</mat-error>
         </mat-form-field>
 
         <div class="buttons">
