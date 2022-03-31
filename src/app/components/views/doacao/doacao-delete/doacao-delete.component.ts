@@ -1,3 +1,5 @@
+import { CategoriaService } from './../../categoria/categoria.service';
+import { Categoria } from './../../categoria/categoria-read/categoria.model';
 import { Utils } from './../../../../utils/utils';
 import { take } from 'rxjs/operators';
 import { Doacao } from './../doacao-read/doacao.model';
@@ -5,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DoacaoService } from './../doacao.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-doacao-delete',
@@ -13,12 +16,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DoacaoDeleteComponent implements OnInit {
   doacao: Doacao = new Doacao();
+  categorias: Categoria[] = new Array();
+    
 
   constructor(private service: DoacaoService,
+    private categoriaService: CategoriaService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.categoriaService.findByFilters(new Categoria()).subscribe((categorias) => {
+      this.categorias = categorias;
+      this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
+    
+    });
+    
     this.route
       .params
       .pipe(take(1))
@@ -52,7 +64,8 @@ export class DoacaoDeleteComponent implements OnInit {
   findById(): void {
     this.service.findById(this.doacao.id!).subscribe((resposta) => {
       this.doacao.descricao = resposta.descricao;
-      this.doacao.categoria = resposta.categoria;
+      // this.doacao.categoria = resposta.categoria;
+      this.doacao.idCategoria = resposta.idCategoria;
       this.doacao.quantidade = resposta.quantidade;
     })
   }

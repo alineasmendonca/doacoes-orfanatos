@@ -1,3 +1,5 @@
+import { CategoriaService } from './../../categoria/categoria.service';
+import { Categoria } from './../../categoria/categoria-read/categoria.model';
 import { Utils } from './../../../../utils/utils';
 import { take } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -5,6 +7,7 @@ import { DoacaoService } from './../doacao.service';
 import { Doacao } from './../doacao-read/doacao.model';
 import { FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-doacao-update',
@@ -12,15 +15,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./doacao-update.component.scss']
 })
 export class DoacaoUpdateComponent implements OnInit {
-  descricao = new FormControl('', [Validators.required, Validators.minLength(3)]);
+  descricao = new FormControl('', [Validators.required, Validators.minLength(5)]);
   quantidade = new FormControl('', [Validators.required, Validators.min(1)]);
+  categoria = new FormControl('', [Validators.required]);
+  categorias: Categoria[] = new Array();
   doacao: Doacao = new Doacao();
 
   constructor(private service: DoacaoService,
+    private categoriaService: CategoriaService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.categoriaService.findByFilters(new Categoria()).subscribe((categorias) => {
+      this.categorias = categorias;
+      this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
+    
+    });
+
     this.route
       .params
       .pipe(take(1))
@@ -54,27 +66,35 @@ export class DoacaoUpdateComponent implements OnInit {
   findById(): void {
     this.service.findById(this.doacao.id!).subscribe((resposta) => {
       this.doacao.descricao = resposta.descricao;
-      this.doacao.categoria = resposta.categoria;
+      this.doacao.idCategoria = resposta.idCategoria;
       this.doacao.quantidade = resposta.quantidade;
     })
   }
 
   retornaMensagemDeErroDescricao() {
-    if(!this.descricao.value){
+    if(this.descricao.hasError('required')){
       return 'O campo Descrição é obrigatório.';
     }
     if(this.descricao.invalid){
-      return 'O campo Descrição deve ter pelo menos 3 caracteres.';
+      return 'O campo Descrição deve ter pelo menos 5 caracteres.';
     }
     return false;
   }
 
   retornaMensagemDeErroQuantidade() {
-    if(!this.quantidade.value){
+    if(this.quantidade.hasError('required')){
       return 'O campo Quantidade é obrigatório.';
     }
-    if(this.quantidade.invalid){
+    if(this.quantidade.hasError('min')){
       return 'O campo Quantidade deve ser maior do que zero.';
+    }
+
+    return false;
+  }
+
+  retornaMensagemDeErroCategoria() {
+    if(this.categoria.hasError('required')){
+      return 'O campo Categoria é obrigatório.';
     }
     return false;
   }

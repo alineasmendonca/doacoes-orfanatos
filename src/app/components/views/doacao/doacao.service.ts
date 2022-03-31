@@ -1,5 +1,6 @@
+import { UtilsService } from './../../../utils/utils-service';
 import { environment } from './../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,6 +12,7 @@ import { Doacao } from './doacao-read/doacao.model';
 export class DoacaoService {
 
   baseUrl: string = environment.baseUrl;
+  public headers = { 'Content-Type': 'application/json' };
 
   constructor(private http: HttpClient,
     private snack: MatSnackBar) { }
@@ -25,14 +27,26 @@ export class DoacaoService {
     return this.http.get<Doacao[]>(url);
   }
 
+  public findByFilters(filtrosDoacao: Doacao): Observable<Doacao[]> {
+    const url = `${this.baseUrl}/doacoes`;
+    const queryParams: HttpParams = UtilsService.buildQueryParams(filtrosDoacao);
+    
+    return this.http
+      .get<Doacao[]>(url,
+        {
+          headers: this.headers,
+          params: queryParams
+        });
+  }
+
+
   findAllByCategoria(id_cat:number): Observable<Doacao[]>{
     const url = `${this.baseUrl}/doacoes?categoria=${id_cat}`;
     return this.http.get<Doacao[]>(url);
   }
 
-
   create(doacao: Doacao): Observable<Doacao>{
-    const url = `${this.baseUrl}/doacoes/incluir`;
+    const url = `${this.baseUrl}/doacoes`;
     return this.http.post<Doacao>(url, doacao);
   }
 

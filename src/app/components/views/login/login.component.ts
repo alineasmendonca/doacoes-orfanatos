@@ -1,9 +1,11 @@
+import { UtilsEnum } from './../../../utils/utils-enum';
 import { Usuario } from './../user/usuario';
 import { Form, FormControl, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth-service.service';
 import { User } from './user.model';
+import { Perfil } from 'src/app/enums/perfil';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +31,11 @@ export class LoginComponent {
   emailFormControl = new FormControl('', [Validators.required, Validators.minLength(10), Validators.email]);
   loginFormControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
   senhaFormControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
+  orfanatoFormControl = new FormControl('', [Validators.required]);
   confirmacaoSenhaFormControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
+
+  todosPerfis = Perfil;
+  valoresPerfis = Object.values(this.todosPerfis).filter(Number);
 
   constructor(private router: Router,
     private authService: AuthService) {
@@ -39,7 +45,6 @@ export class LoginComponent {
     this.authService
       .tentarLogar(this.loginFormControl.value, this.senhaFormControl.value)
       .subscribe((response) => {
-        console.log('Login:', response);
         const access_token = JSON.stringify(response);
         localStorage.setItem('access_token', access_token)
         this.router.navigate(['home']);
@@ -73,7 +78,6 @@ export class LoginComponent {
     if (this.senhaFormControl.value !== this.confirmacaoSenhaFormControl.value) {
       this.authService.mensagem('Senha e Confirmar Senha são diferentes');
     } else {
-      console.log('Usuário:', JSON.stringify(this.usuario));
       this.authService
         .save(this.usuario)
         .subscribe(() => {
@@ -106,6 +110,10 @@ export class LoginComponent {
       }
     }
     return false;
+  }
+
+  rotuloPerfil(perfil: number | string | Perfil): string {
+    return UtilsEnum.retornaRotuloPerfil(perfil);
   }
 
 }

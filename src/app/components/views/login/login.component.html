@@ -43,11 +43,37 @@
                         type="text" name="telefoneFixo" maxlength="10" placeholder="Digite seu telefone fixo">
                 </mat-form-field>
 
-                <mat-form-field class="campo" *ngIf="cadastrando">
+                <!--<mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-label>Perfil</mat-label>
                     <input matInput [(ngModel)]="usuario.perfil" [formControl]="perfilFormControl" type="text"
                         name="perfil" placeholder="Digite seu perfil (1, 2 ou 3)" required>
                     <mat-error *ngIf="perfilFormControl.invalid">{{retornaMensagemErro(perfilFormControl, 'Perfil',
+                        10)}}</mat-error>
+                </mat-form-field>-->
+
+                <mat-form-field class="campo" *ngIf="cadastrando">
+                    <mat-select id="perfil" placeholder="Perfil" [(ngModel)]="usuario.perfil"
+                        [formControl]="perfilFormControl" name="perfil" panelClass="positionClass" required>
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let valor of valoresPerfis; index as i" [value]=valor>
+                            {{rotuloPerfil(valor)}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="perfilFormControl.invalid">{{retornaMensagemErro(perfilFormControl, 'Perfil',
+                        10)}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="campo" *ngIf="cadastrando && usuario.perfil === 3">
+                    <mat-select id="orfanato" placeholder="Orfanato" [(ngModel)]="usuario.idOrfanato"
+                        [formControl]="orfanatoFormControl" name="orfanato" panelClass="positionClass" required>
+                        <mat-option [value]=1>Casa de Acolhimento Casa de Jeremias</mat-option>
+                        <mat-option [value]=2>Casa do Menino Jesus</mat-option>
+                        <mat-option [value]=3>Tia Júlia</mat-option>
+                        <!--<mat-option *ngFor="let orfanato of orfanatos; index as i" [value]=orfanato.id>
+                            {{orfanato.nome}}
+                        </mat-option>-->
+                    </mat-select>
+                    <mat-error *ngIf="orfanatoFormControl.invalid">{{retornaMensagemErro(orfanatoFormControl, 'Orfanato',
                         10)}}</mat-error>
                 </mat-form-field>
 
@@ -63,7 +89,7 @@
                     <mat-label>Login</mat-label>
                     <input matInput [(ngModel)]="usuario.username" [formControl]="loginFormControl" type="text"
                         name="login" placeholder="Digite seu login" required>
-                    <mat-error *ngIf="loginFormControl.invalid">{{retornaMensagemErro(loginFormControl, 'Login', 8)}}
+                    <mat-error *ngIf="loginFormControl.invalid">{{retornaMensagemErro(loginFormControl, 'Login', 5)}}
                     </mat-error>
                 </mat-form-field>
 
@@ -71,7 +97,7 @@
                     <mat-label>Senha</mat-label>
                     <input matInput [(ngModel)]="usuario.senha" [formControl]="senhaFormControl" type="password"
                         name="senha" placeholder="Digite sua senha" required>
-                    <mat-error *ngIf="senhaFormControl.invalid">{{retornaMensagemErro(senhaFormControl, 'Senha', 8)}}
+                    <mat-error *ngIf="senhaFormControl.invalid">{{retornaMensagemErro(senhaFormControl, 'Senha', 5)}}
                     </mat-error>
                 </mat-form-field>
 
@@ -80,21 +106,22 @@
                     <input matInput [(ngModel)]="usuario.confirmacaoSenha" [formControl]="confirmacaoSenhaFormControl"
                         type="password" name="confirmacaoSenha" placeholder="Confirme sua senha" required>
                     <mat-error *ngIf="confirmacaoSenhaFormControl.invalid">
-                        {{retornaMensagemErro(confirmacaoSenhaFormControl, 'Confirmação Senha', 8)}}</mat-error>
+                        {{retornaMensagemErro(confirmacaoSenhaFormControl, 'Confirmação Senha', 5)}}</mat-error>
                 </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions class="buttons">
             <button [disabled]="loginFormControl.invalid || senhaFormControl.invalid" (click)="onSubmit()"
-                class="mat-elevation-z8" mat-stroked-button color="primary" *ngIf="!cadastrando">ENTRAR</button>
-            <button [disabled]="nomeCompletoFormControl.invalid || enderecoFormControl.invalid || emailFormControl.invalid || loginFormControl.invalid || 
+                class="mat-elevation-z8" mat-stroked-button color="primary" *ngIf="!cadastrando">Entrar</button>
+            <button
+                [disabled]="nomeCompletoFormControl.invalid || enderecoFormControl.invalid || emailFormControl.invalid || loginFormControl.invalid || 
             telefoneCelularFormControl.invalid || telefoneFixoFormControl.invalid || perfilFormControl.invalid || senhaFormControl.invalid || confirmacaoSenhaFormControl.invalid"
                 (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button color="primary"
-                *ngIf="cadastrando">CONFIRMAR</button>
+                *ngIf="cadastrando">Confirmar</button>
             <button (click)="cancelaCadastro()" class="mat-elevation-z8" mat-stroked-button color="warn"
-                *ngIf="cadastrando">CANCELAR</button>
+                *ngIf="cadastrando">Cancelar</button>
             <button (click)="preparaCadastrar($event)" class="mat-elevation-z8" mat-stroked-button color="primary"
-                *ngIf="!cadastrando">CADASTRAR</button>
+                *ngIf="!cadastrando">Cadastrar</button>
         </mat-card-actions>
     </mat-card>
 </div>
@@ -130,13 +157,13 @@
 
     <div class="buttons">
         <button type="submit" class="mat-elevation-z8" mat-stroked-button color="primary"
-            *ngIf="!cadastrando">ENTRAR</button>
+            *ngIf="!cadastrando">Entrar</button>
         <button (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button color="primary"
-            *ngIf="cadastrando">CONFIRMAR</button>
+            *ngIf="cadastrando">Confirmar</button>
         <button (click)="cancelaCadastro()" class="mat-elevation-z8" mat-stroked-button color="warn"
             *ngIf="cadastrando">CANCELAR</button>
         <button (click)="preparaCadastrar($event)" class="mat-elevation-z8" mat-stroked-button color="primary"
-            *ngIf="!cadastrando">CADASTRAR</button>
+            *ngIf="!cadastrando">Cadastrar</button>
     </div>
 
     <div>

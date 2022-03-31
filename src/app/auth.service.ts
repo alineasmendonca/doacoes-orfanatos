@@ -66,8 +66,6 @@ export class AuthService {
     this.token = this.obterToken();
     if (this.token) {
       this.username = this.jwtHelper.decodeToken(this.token).user_name;
-      console.log(this.username);
-      console.log('Usuario autenticado:', JSON.stringify( this.jwtHelper.decodeToken(this.token)));
       return this.username;
     }
     return null;
@@ -97,9 +95,7 @@ export class AuthService {
   }
 
   getAllUsers(): Observable<Usuario[]> {
-
     const url = this.apiURL;
-    console.log(url);
     return this.http.get<any>(url);
   }
 
@@ -112,20 +108,15 @@ export class AuthService {
     const httpParams = new HttpParams()
       .set("username", usernameAppUser);
     const url = this.apiURL + "/userByUsername?" + httpParams.toString();
-    console.log(url);
     return this.http.get<any>(`${url}`);
   }*/
 
   getUser(){
-    console.log("Mais um teste");
     let usernameAppUser = this.getAuthenticadtedUser();
     const httpParams = new HttpParams()
       .set("username", usernameAppUser);
     const url = this.apiURL + "/userByUsername?" + httpParams.toString();
-    console.log(url);
     this.http.get<any>(`${url}`).subscribe(response => this.user = response);
-    console.log("Aqui");
-    console.log('Usuario:', JSON.stringify(this.user));
   }
 
   delete(username: string): Observable<any> {

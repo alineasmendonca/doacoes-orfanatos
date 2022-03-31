@@ -1,5 +1,6 @@
 export class Usuario {
    id?: number;
+   idOrfanato?: number;
    username?: string;
    nome?: string;
    telefoneCelular?: string;

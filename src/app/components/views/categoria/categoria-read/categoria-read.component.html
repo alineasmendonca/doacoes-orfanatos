@@ -1,5 +1,5 @@
 <div class="content">
-    <form>
+    <form #formCategoria="ngForm">
         <h1>CONSULTAR CATEGORIA</h1>
         <mat-form-field class="campo">
             <mat-label>Nome</mat-label>
@@ -11,9 +11,10 @@
         </mat-form-field>
     
         <div class="buttons">
-            <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
+            <button class="mat-elevation-z8"(click)="pesquisar()" mat-stroked-button color="primary">Pesquisar</button>
             <button class="mat-elevation-z8" (click)="incluirCategoria()" mat-stroked-button color="primary">Incluir</button>
-            <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
+            <button class="mat-elevation-z8" (click)="limpar(formCategoria)" mat-stroked-button color="warn">Limpar</button>
+            <button class="mat-elevation-z8" (click)="voltar()" mat-stroked-button color="warn">Voltar</button>
         </div>
     </form>
 
@@ -21,11 +22,6 @@
         <table class="table" mat-table [dataSource]="categorias">
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
-                <td mat-cell *matCellDef="let row; let i = index">{{row.id}}</td>
-            </ng-container>
 
             <ng-container matColumnDef="nome">
                 <th mat-header-cell *matHeaderCellDef>Nome</th>
@@ -37,15 +33,6 @@
                 <td mat-cell *matCellDef="let row; let i = index">{{row.descricao}}</td>
             </ng-container>
             
-            <ng-container matColumnDef="doacoes">
-                <th mat-header-cell *matHeaderCellDef>Doações</th>
-                <td mat-cell *matCellDef="let row; let i = index">
-                    <a class="doacoes" routerLink="{{row.id}}/doacoes">
-                        <i class="material-icons">volunteer_activism</i>
-                    </a>
-                </td>
-            </ng-container>
-
             <ng-container matColumnDef="acoes">
                 <th class="mat-header" mat-header-cell *matHeaderCellDef>Ações</th>
                 <td mat-cell *matCellDef="let row; let i = index">
@@ -58,5 +45,9 @@
                 </td>
             </ng-container>
         </table>
+    </div>
+
+    <div *ngIf="categorias.length === 0" class="app-empty-search-result" role="alert">
+        <span>Nenhuma Categoria encontrada.</span>
     </div>
 </div>

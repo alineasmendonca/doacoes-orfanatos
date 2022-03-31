@@ -96,9 +96,7 @@ export class AuthService {
   }
 
   getAllUsers(): Observable<User[]> {
-
     const url = this.apiURL;
-    console.log(url);
     return this.http.get<any>(url);
   }
 
@@ -111,20 +109,15 @@ export class AuthService {
     const httpParams = new HttpParams()
       .set("username", usernameAppUser);
     const url = this.apiURL + "/userByUsername/?" + httpParams.toString();
-    console.log(url);
     return this.http.get<any>(`${url}`);
   }*/
 
   getUser(){
-    console.log("Mais um teste");
     let usernameAppUser = this.getAuthenticadtedUser();
     const httpParams = new HttpParams()
       .set("username", usernameAppUser);
     const url = this.apiURL + "/userByUsername/?" + httpParams.toString();
-    console.log(url);
     this.http.get<any>(`${url}`).subscribe(response => this.user = response);
-    console.log("Aqui");
-    console.log(this.user);
   }
 
   delete(username: string): Observable<any> {

@@ -1,18 +1,34 @@
-<form>
-    <h1>EXCLUIR DOAÇÃO</h1>
-    <mat-form-field class="form">
-        <mat-label>Descrição</mat-label>
-        <textarea matInput [(ngModel)]="doacao.descricao"type="text" name="descricao" disabled></textarea>
-    </mat-form-field>
+<div class="content">
+    <form>
+        <h1>EXCLUIR DOAÇÃO</h1>
+        <mat-form-field class="form">
+            <mat-select id="combo-categoria" placeholder="Categoria"
+              [(ngModel)]="doacao.idCategoria" name="categoria" panelClass="positionClass" disabled>
+              <mat-option></mat-option>
+              <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+                {{ categoria.nome }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-    <mat-form-field class="form">
-        <mat-label>Quantidade</mat-label>
-        <input matInput [(ngModel)]="doacao.quantidade" type="number" name="quantidade" disabled>
-    </mat-form-field>
-    <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
+        <mat-form-field class="form">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput [(ngModel)]="doacao.descricao" type="text" name="descricao"
+                placeholder="Ex.: Doação de Latas de Leite Ninho" maxlength="400" disabled></textarea>
+        </mat-form-field>
+        <mat-form-field class="form">
+            <mat-label>Quantidade</mat-label>
+            <input matInput [(ngModel)]="doacao.quantidade" type="text" name="quantidade"
+                placeholder="Quantidade" maxlength="5" mask="99999" disabled>
+        </mat-form-field>
+        <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
 
-    <div class="buttons">
-        <button (click)="excluirDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">EXCLUIR</button>
-        <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">CANCELAR</button>
-    </div>
-</form>
+        <div class="buttons">
+            <div class="buttons">
+                <button (click)="excluirDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Excluir</button>
+                <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>
+

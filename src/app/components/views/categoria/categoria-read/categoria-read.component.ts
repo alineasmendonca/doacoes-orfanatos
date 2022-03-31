@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { AuthService } from './../../../../auth.service';
 import { Categoria } from './categoria.model';
 import { CategoriaService } from './../categoria.service';
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class CategoriaReadComponent implements OnInit {
   categorias: Categoria[] = [];
-  displayedColumns: string[] = ['id', 'nome', 'descricao', 'doacoes', 'acoes'];
+  displayedColumns: string[] = ['nome', 'descricao', 'acoes'];
   filtroCategoria: Categoria = new Categoria();
 
   constructor(private service: CategoriaService,
@@ -43,6 +44,12 @@ export class CategoriaReadComponent implements OnInit {
 
   incluirCategoria(): void {
     this.router.navigate(['categorias/create']);
+  }
+
+  limpar(form: NgForm): void {
+    form.reset();
+    this.filtroCategoria = new Categoria();
+    this.findAll();
   }
 
 }

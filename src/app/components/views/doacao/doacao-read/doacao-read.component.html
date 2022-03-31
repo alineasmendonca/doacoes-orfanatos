@@ -1,18 +1,40 @@
 <div class="content">
-    <div class="title">
-        <h1>Doações</h1>
-    </div>
-    <button (click)="incluirDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Incluir Doação</button>
+    <form #formDoacao="ngForm">
+        <h1>CONSULTAR DOAÇÃO</h1>
+        <mat-form-field class="campo">
+            <mat-select id="combo-categoria" placeholder="Categoria"
+              [(ngModel)]="filtroDoacao.idCategoria" name="categoria" panelClass="positionClass">
+              <mat-option></mat-option>
+              <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+                {{ categoria.nome }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-    <div class="mat-elevation-z8 content-table">
+        <mat-form-field class="campo">
+            <!--<mat-label>Nome</mat-label>-->
+            <textarea matInput [(ngModel)]="filtroDoacao.descricao" type="text" name="descricao"
+                placeholder="Descrição"></textarea>
+        </mat-form-field>
+        <mat-form-field class="campo">
+            <!--<mat-label>Descrição</mat-label>-->
+            <input matInput [(ngModel)]="filtroDoacao.quantidade" type="text" name="quantidade"
+                placeholder="Quantidade" maxlength="5" mask="99999">
+        </mat-form-field>
+
+        <div class="buttons">
+            <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
+            <button class="mat-elevation-z8" (click)="incluirDoacao()" mat-stroked-button
+                color="primary">Incluir</button>
+            <button (click)="limpar(formDoacao)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
+            <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
+        </div>
+    </form>
+
+    <div class="mat-elevation-z8 content-table" *ngIf="doacoes.length > 0">
         <table class="table" mat-table [dataSource]="doacoes">
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
-                <td mat-cell *matCellDef="let row; let i = index">{{row.id}}</td>
-            </ng-container>
 
             <ng-container matColumnDef="descricao">
                 <th mat-header-cell *matHeaderCellDef>Descrição</th>
@@ -45,5 +67,9 @@
                 </td>
             </ng-container>
         </table>
+    </div>
+
+    <div *ngIf="doacoes.length === 0" class="app-empty-search-result" role="alert">
+        <span>Nenhuma Doação encontrada.</span>
     </div>
 </div>

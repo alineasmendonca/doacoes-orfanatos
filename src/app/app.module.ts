@@ -21,8 +21,10 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule} from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxMaskModule } from 'ngx-mask';
 import { CategoriaReadComponent } from './components/views/categoria/categoria-read/categoria-read.component';
 import { CategoriaCreateComponent } from './components/views/categoria/categoria-create/categoria-create.component';
 import { CategoriaDeleteComponent } from './components/views/categoria/categoria-delete/categoria-delete.component';
@@ -70,8 +72,10 @@ import { LayoutComponent } from './components/views/layout/layout.component';
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatSelectModule,
     MatFormFieldModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     AuthService,

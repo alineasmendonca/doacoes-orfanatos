@@ -2,3 +2,10 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.app-empty-search-result {
+    font-size: px2em(16);
+    padding: .75em;
+    color: darken(#1b5992, 10%);
+  
+  }
