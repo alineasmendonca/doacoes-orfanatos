@@ -1,0 +1,89 @@
+<div class="content">
+    <form>
+        <h1>INCLUIR ORFANATO</h1>
+        <mat-form-field class="form">
+            <mat-label>Nome</mat-label>
+            <textarea matInput [(ngModel)]="orfanato.nome" [formControl]="nome" type="text" name="nome"
+                placeholder="Ex.: Casa de Acolhimento Casa de Jeremias" maxlength="250" cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" required></textarea>
+            <mat-error *ngIf="nome.invalid">{{retornaMensagemDeErroNome()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>Endereço</mat-label>
+            <textarea matInput [(ngModel)]="orfanato.endereco" [formControl]="endereco" type="text" name="endeceo"
+                placeholder="Ex.: Avenida Pontes Vieira 125, Bairro São João do Tauape" maxlength="250"
+                cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10"
+                required></textarea>
+            <mat-error *ngIf="endereco.invalid">{{retornaMensagemDeErroEndereco()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>Quantidade de Crianças</mat-label>
+            <input matInput [(ngModel)]="orfanato.quantidadeCriancas" [formControl]="quantidadeCriancas" type="text"
+                name="quantidadeCriancas" placeholder="Quantidade de Crianças" maxlength="5" mask="99999" required>
+            <mat-error *ngIf="quantidadeCriancas.invalid">{{retornaMensagemDeErroQuantidadeCriancas()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>História da Fundação</mat-label>
+            <textarea matInput [(ngModel)]="orfanato.historia" [formControl]="historia" type="text" name="historia"
+                placeholder="Ex.: A Casa de Jeremias foi fundada em 10/01/2012..." maxlength="500" cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="15" required></textarea>
+            <mat-error *ngIf="historia.invalid">{{retornaMensagemDeErroHistoria()}}</mat-error>
+        </mat-form-field>
+
+        <!--<mat-form-field class="form">
+            <mat-label>Data da Fundação</mat-label>
+            <input matInput [(ngModel)]="orfanato.dataFundacao" [formControl]="dataFundacao" type="text"
+                name="dataFundacao" placeholder="Data da Fundação" maxlength="10" mask="00/00/0000" required>
+            <mat-error *ngIf="dataFundacao.invalid">{{retornaMensagemDeErroDataFundacao()}}</mat-error>
+        </mat-form-field>-->
+
+        <!--<mat-form-field>
+            <input #prazoFinalReembolso id="prazoFinalReembolso" matInput placeholder="Prazo Final Reembolso" type="text"
+              name="prazoFinalReembolso" (click)="picker3.open()" [min]="prazoFinalReembolsoMinimo"
+              formControlName="prazoFinalReembolso" [matDatepicker]="picker3" readonly required>
+            <button class="botaoLimpar" matTooltip="Limpar" matTooltipClass="tooltip" mat-button
+              *ngIf="formGroup.get('prazoFinalReembolso').value" matSuffix mat-icon-button [disabled]="!solicitouEdicao"
+              aria-label="Clear" (click)="limparPrazoFinalReembolso($event)">
+              <mat-icon>clear</mat-icon>
+            </button>
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+            <mat-error>Campo obrigatório</mat-error>
+        </mat-form-field>-->
+
+        <mat-form-field class="form">
+            <mat-label>Telefone</mat-label>
+            <input matInput [(ngModel)]="orfanato.telefone" [formControl]="telefone" type="text"
+                name="telefone" placeholder="Telefone" maxlength="12" mask="(00)00000000" required>
+            <mat-error *ngIf="telefone.invalid">{{retornaMensagemDeErroTelefone()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <input matInput id="dataFundacao" matInput placeholder="Data da Fundação" type="text"
+                name="dataFundacao" (click)="picker3.open()"
+                [(ngModel)]="orfanato.dataFundacao" [formControl]="dataFundacao" [matDatepicker]="picker3" readonly required>
+            <button class="botaoLimpar" matTooltip="Limpar" matTooltipClass="tooltip" mat-button
+                *ngIf="dataFundacao.value" matSuffix mat-icon-button
+                aria-label="Clear" (click)="limparDataDeFundacao($event)">
+                <mat-icon>clear</mat-icon>
+            </button>
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+            <mat-error>O campo Data da Fundação é obrigatório.</mat-error>
+        </mat-form-field>
+
+
+        <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
+
+        <div class="buttons">
+            <button
+                [disabled]="retornaMensagemDeErroNome() || retornaMensagemDeErroQuantidadeCriancas() || retornaMensagemDeErroEndereco() || retornaMensagemDeErroHistoria() || retornaMensagemDeErroDataFundacao()"
+                (click)="cadastrarOrfanato()" class="mat-elevation-z8" mat-stroked-button
+                color="primary">Salvar</button>
+            <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Cancelar</button>
+        </div>
+    </form>
+</div>

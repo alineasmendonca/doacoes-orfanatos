@@ -1,3 +1,5 @@
+import { PortugueseDateProvider } from './utils/portuguese-date-provider';
+import { OrfanatoReadComponent } from './components/views/orfanato/orfanato-read/orfanato-read.component';
 import { TokenInterceptor } from './token.interceptor';
 import { AdminGuard } from './admin.guard';
 import { AuthGuard } from './auth.guard';
@@ -13,14 +15,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FooterComponent } from './components/template/footer/footer.component';
 import { NavComponent } from './components/template/nav/nav.component'
 import { HomeComponent } from './components/views/home/home.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-import {MatTableModule} from '@angular/material/table';
-import {MatButtonModule} from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -36,7 +38,13 @@ import { DoacaoUpdateComponent } from './components/views/doacao/doacao-update/d
 import { DoacaoCategoriaReadComponent } from './components/views/doacao/doacao-categoria-read/doacao-categoria-read.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { LayoutComponent } from './components/views/layout/layout.component';
-
+import { OrfanatoCreateComponent } from './components/views/orfanato/orfanato-create/orfanato-create.component';
+import { OrfanatoDeleteComponent } from './components/views/orfanato/orfanato-delete/orfanato-delete.component';
+import { OrfanatoUpdateComponent } from './components/views/orfanato/orfanato-update/orfanato-update.component';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatOptionModule, MatNativeDateModule, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatPaginatorIntlBr } from './utils/mat-paginator-intl-br';
 
 @NgModule({
   declarations: [
@@ -54,6 +62,10 @@ import { LayoutComponent } from './components/views/layout/layout.component';
     DoacaoDeleteComponent,
     DoacaoUpdateComponent,
     DoacaoCategoriaReadComponent,
+    OrfanatoReadComponent,
+    OrfanatoCreateComponent,
+    OrfanatoDeleteComponent,
+    OrfanatoUpdateComponent,
     LoginComponent,
     LayoutComponent
   ],
@@ -75,6 +87,10 @@ import { LayoutComponent } from './components/views/layout/layout.component';
     MatSelectModule,
     MatFormFieldModule,
     MatSnackBarModule,
+    TextFieldModule,
+    MatDatepickerModule,
+    MatOptionModule,
+    MatNativeDateModule,
     NgxMaskModule.forRoot()
   ],
   providers: [
@@ -91,9 +107,15 @@ import { LayoutComponent } from './components/views/layout/layout.component';
       useValue: 'pt'
     },
     {
-      provide:  DEFAULT_CURRENCY_CODE,
+      provide: DEFAULT_CURRENCY_CODE,
       useValue: 'BRL'
-    }
+    },
+    { provide: MatPaginatorIntlBr, useClass: MatPaginatorIntlBr },
+    { provide: DateAdapter, useClass: PortugueseDateProvider },
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }/*,
+    { provide: MAT_DIALOG_DATA, useValue: [] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentUtcDateAdapter }*/
   ],
   bootstrap: [AppComponent]
 })

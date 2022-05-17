@@ -1,0 +1,69 @@
+<div class="content">
+    <form #formOrfanato="ngForm">
+        <h1>CONSULTAR ORFANATO</h1>
+
+        <mat-form-field class="campo">
+           <textarea matInput [(ngModel)]="filtroOrfanato.nome" type="text" name="nome"
+                placeholder="Nome"></textarea>
+        </mat-form-field>
+        <mat-form-field class="campo">
+            <textarea matInput [(ngModel)]="filtroOrfanato.endereco" type="text" name="endereco"
+                placeholder="Endereço"></textarea>
+        </mat-form-field>
+
+        <div class="buttons">
+            <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
+            <button class="mat-elevation-z8" (click)="incluirOrfanato()" mat-stroked-button
+                color="primary">Incluir</button>
+            <button (click)="limpar(formOrfanato)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
+            <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
+        </div>
+    </form>
+
+    <div class="mat-elevation-z8 content-table" *ngIf="orfanatos.length > 0">
+        <table class="table" mat-table [dataSource]="orfanatos">
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef>Nome</th>
+                <td mat-cell *matCellDef="let row; let i = index">{{row.nome}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="endereco">
+                <th mat-header-cell *matHeaderCellDef>Endereço</th>
+                <td mat-cell *matCellDef="let row; let i = index">{{row.endereco}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantidadeCriancas">
+                <th mat-header-cell *matHeaderCellDef>Quantidade de Crianças</th>
+                <td mat-cell *matCellDef="let row; let i = index">{{row.quantidadeCriancas}}</td>
+            </ng-container>
+
+            <!--<ng-container matColumnDef="doacoes">
+                <th mat-header-cell *matHeaderCellDef>Doações</th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                    <a class="doacoes" routerLink="{{row.id}}/doacoes">
+                        <i class="material-icons">volunteer_activism</i>
+                    </a>
+                </td>
+            </ng-container>-->
+
+            <ng-container matColumnDef="acoes">
+                <th class="mat-header" mat-header-cell *matHeaderCellDef>Ações</th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                    <a class="edit" routerLink="update/{{row.id}}">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a class="delete" routerLink="delete/{{row.id}}">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </td>
+            </ng-container>
+        </table>
+    </div>
+
+    <div *ngIf="orfanatos.length === 0" class="app-empty-search-result" role="alert">
+        <span>Nenhum Orfanato encontrado.</span>
+    </div>
+</div>

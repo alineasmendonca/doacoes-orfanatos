@@ -1,6 +1,9 @@
+import { OrfanatoUpdateComponent } from './components/views/orfanato/orfanato-update/orfanato-update.component';
+import { OrfanatoDeleteComponent } from './components/views/orfanato/orfanato-delete/orfanato-delete.component';
+import { OrfanatoCreateComponent } from './components/views/orfanato/orfanato-create/orfanato-create.component';
+import { OrfanatoReadComponent } from './components/views/orfanato/orfanato-read/orfanato-read.component';
 import { LayoutComponent } from './components/views/layout/layout.component';
 import { LoginComponent } from './components/views/login/login.component';
-import { DoacaoCategoriaReadComponent } from './components/views/doacao/doacao-categoria-read/doacao-categoria-read.component';
 import { DoacaoUpdateComponent } from './components/views/doacao/doacao-update/doacao-update.component';
 import { DoacaoDeleteComponent } from './components/views/doacao/doacao-delete/doacao-delete.component';
 import { DoacaoCreateComponent } from './components/views/doacao/doacao-create/doacao-create.component';
@@ -61,6 +64,26 @@ const routes: Routes = [
       {
         path:'doacoes/update/:id',
         component: DoacaoUpdateComponent,
+        canActivate : [AuthGuard]
+      },
+      {
+        path:'orfanatos',
+        component: OrfanatoReadComponent,
+        canActivate : [AuthGuard]
+      },
+      {
+        path:'orfanatos/create',
+        component: OrfanatoCreateComponent,
+        canActivate : [AuthGuard]
+      },
+      {
+        path:'orfanatos/delete/:id',
+        component: OrfanatoDeleteComponent,
+        canActivate : [AuthGuard]
+      },
+      {
+        path:'orfanatos/update/:id',
+        component: OrfanatoUpdateComponent,
         canActivate : [AuthGuard]
       }
     ]
