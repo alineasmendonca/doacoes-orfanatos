@@ -1,0 +1,55 @@
+h1{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 3rem;
+}
+
+.campo{
+    width: 100%;
+}
+
+button {
+    margin-right: .5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+
+
+.content{
+    width: 90%;
+    margin: 1.4rem auto auto auto;
+}
+
+button{
+    margin-bottom: .8rem;
+}
+
+.table{
+  width: 100%;
+}
+
+.doacoes{
+    color: rgb(37, 125, 240);
+    margin-left: .6rem;
+}
+
+.edit{
+    color: rgb(206, 173, 24);
+}
+
+.delete{
+    color: rgb(228, 56, 56);
+    margin-left: .5rem;
+}
+
+.mat-header{
+  width: 5rem;
+}
+
+.mensagem {
+    border: 3px solid #1b5992;
+    font-family: 'Arial', 'Courier New', Courier, monospace;
+    font-size: 16px;
+    border-radius: 5px;
+}

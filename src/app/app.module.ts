@@ -1,3 +1,4 @@
+import { UsuarioReadComponent } from './components/views/usuario/usuario-read/usuario-read.component';
 import { PortugueseDateProvider } from './utils/portuguese-date-provider';
 import { OrfanatoReadComponent } from './components/views/orfanato/orfanato-read/orfanato-read.component';
 import { TokenInterceptor } from './token.interceptor';
@@ -66,6 +67,7 @@ import { MatPaginatorIntlBr } from './utils/mat-paginator-intl-br';
     OrfanatoCreateComponent,
     OrfanatoDeleteComponent,
     OrfanatoUpdateComponent,
+    UsuarioReadComponent,
     LoginComponent,
     LayoutComponent
   ],

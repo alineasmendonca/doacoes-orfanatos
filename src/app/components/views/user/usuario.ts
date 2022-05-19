@@ -11,4 +11,5 @@ export class Usuario {
    admin?: boolean;
    endereco?: string;
    perfil?: number;
+   perfilRotulo?: string;
 }
