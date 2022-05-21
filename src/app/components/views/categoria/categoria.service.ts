@@ -1,4 +1,3 @@
-import { AuthService } from './../../../auth.service';
 import { Categoria } from './categoria-read/categoria.model';
 import { environment } from './../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -6,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from 'src/app/utils/utils-service';
+import { AuthService } from '../login/auth-service.service';
 
 @Injectable({
   providedIn: 'root'

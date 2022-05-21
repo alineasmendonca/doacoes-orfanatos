@@ -1,5 +1,5 @@
+import { AuthService } from './../../login/auth-service.service';
 import { NgForm } from '@angular/forms';
-import { AuthService } from './../../../../auth.service';
 import { Categoria } from './categoria.model';
 import { CategoriaService } from './../categoria.service';
 import { Component, OnInit } from '@angular/core';

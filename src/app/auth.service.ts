@@ -1,3 +1,5 @@
+/*import { Orfanato } from './components/views/orfanato/orfanato-read/orfanato.model';
+import { UtilsService } from 'src/app/utils/utils-service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -20,6 +22,8 @@ export class AuthService {
   token : any;
   expired : any;
   username : any;
+  public headers = { 'Content-Type': 'application/json' };
+  baseUrl: string = environment.baseUrl;
 
   constructor(private http: HttpClient) {
     this.getUser();
@@ -103,13 +107,13 @@ export class AuthService {
     return this.http.get<any>(`${this.apiURL}/${id}`);
   }
 
-  /*getUserByUsername(): Observable<Usuario> {
-    let usernameAppUser = this.getAuthenticadtedUser();
-    const httpParams = new HttpParams()
-      .set("username", usernameAppUser);
-    const url = this.apiURL + "/userByUsername?" + httpParams.toString();
-    return this.http.get<any>(`${url}`);
-  }*/
+  // getUserByUsername(): Observable<Usuario> {
+  //   let usernameAppUser = this.getAuthenticadtedUser();
+  //   const httpParams = new HttpParams()
+  //     .set("username", usernameAppUser);
+  //   const url = this.apiURL + "/userByUsername?" + httpParams.toString();
+  //   return this.http.get<any>(`${url}`);
+  // }
 
   getUser(){
     let usernameAppUser = this.getAuthenticadtedUser();
@@ -123,4 +127,16 @@ export class AuthService {
     return this.http.delete<any>(`${this.apiURL}/${username}`);
   }
 
-}
+  public findOrfanatosByFilters(filtrosOrfanato: Orfanato): Observable<Orfanato[]> {
+    const url = `${this.baseUrl}/usuarios/orfanatos`;
+    const queryParams: HttpParams = UtilsService.buildQueryParams(filtrosOrfanato);
+    
+    return this.http
+      .get<Orfanato[]>(url,
+        {
+          headers: this.headers,
+          params: queryParams
+        });
+  }
+
+}*/

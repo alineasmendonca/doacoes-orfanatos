@@ -1,3 +1,4 @@
+import { OrfanatoService } from './../orfanato/orfanato.service';
 import { UtilsEnum } from './../../../utils/utils-enum';
 import { Usuario } from './../user/usuario';
 import { Form, FormControl, Validators } from '@angular/forms';
@@ -6,6 +7,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth-service.service';
 import { User } from './user.model';
 import { Perfil } from 'src/app/enums/perfil';
+import { Orfanato } from '../orfanato/orfanato-read/orfanato.model';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-login',
@@ -36,9 +39,20 @@ export class LoginComponent {
 
   todosPerfis = Perfil;
   valoresPerfis = Object.values(this.todosPerfis).filter(Number);
+  orfanatos: Orfanato[] = new Array();
 
   constructor(private router: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private orfanatoService: OrfanatoService) {
+      console.log('Entrei aqui 1');
+      this.orfanatoService.findByFilters(new Orfanato()).subscribe((orfanatos) => {
+        this.orfanatos = orfanatos;
+        console.log(JSON.stringify(this.orfanatos));
+        this.orfanatos = _.orderBy(this.orfanatos, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
+      }, (error)=>{
+        console.log('Erro:', JSON.stringify(error));
+      });
+      console.log('Entrei aqui 2');
   }
 
   onSubmit() {

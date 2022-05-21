@@ -1,3 +1,5 @@
+import { Orfanato } from './../orfanato/orfanato-read/orfanato.model';
+import { UtilsService } from 'src/app/utils/utils-service';
 import { Usuario } from './../user/usuario';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -22,6 +24,8 @@ export class AuthService {
   token : any;
   expired : any;
   username : any;
+  public headers = { 'Content-Type': 'application/json' };
+  baseUrl: string = environment.baseUrl;
 
   constructor(private http: HttpClient,
     private snack: MatSnackBar) {
@@ -130,6 +134,21 @@ export class AuthService {
       verticalPosition: 'top',
       duration: 5000
     });
+  }
+
+  public findOrfanatosByFilters(filtrosOrfanato: Orfanato): Observable<Orfanato[]> {
+    console.log('Entrei aqui');
+    const url = `${this.apiURL}/orfanatos`;
+    const queryParams: HttpParams = UtilsService.buildQueryParams(filtrosOrfanato);
+
+    console.log(JSON.stringify(queryParams));
+    
+    return this.http
+      .get<Orfanato[]>(url,
+        {
+          headers: this.headers,
+          params: queryParams
+        });
   }
 
 }

@@ -1,11 +1,5 @@
 <div class="container-login">
     <mat-card class="card-login" style="text-align: center;">
-        <!--<mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
         <mat-card-header>
             <p class="boas-vindas">Sistema de Doações para Orfanatos</p>
         </mat-card-header>
@@ -31,8 +25,8 @@
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-label>Telefone Celular</mat-label>
                     <input matInput [(ngModel)]="usuario.telefoneCelular" [formControl]="telefoneCelularFormControl"
-                        type="text" name="telefoneCelular" placeholder="Digite seu telefone celular" maxlength="11"
-                        required>
+                        type="text" name="telefoneCelular" placeholder="Digite seu telefone celular" maxlength="13" 
+                        mask="(00)000000000" required>
                     <mat-error *ngIf="telefoneCelularFormControl.invalid">
                         {{retornaMensagemErro(telefoneCelularFormControl, 'Telefone Celular', 10)}}</mat-error>
                 </mat-form-field>
@@ -40,16 +34,8 @@
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-label>Telefone Fixo</mat-label>
                     <input matInput [(ngModel)]="usuario.telefoneFixo" [formControl]="telefoneFixoFormControl"
-                        type="text" name="telefoneFixo" maxlength="10" placeholder="Digite seu telefone fixo">
+                        type="text" name="telefoneFixo" maxlength="12" mask="(00)00000000" placeholder="Digite seu telefone fixo">
                 </mat-form-field>
-
-                <!--<mat-form-field class="campo" *ngIf="cadastrando">
-                    <mat-label>Perfil</mat-label>
-                    <input matInput [(ngModel)]="usuario.perfil" [formControl]="perfilFormControl" type="text"
-                        name="perfil" placeholder="Digite seu perfil (1, 2 ou 3)" required>
-                    <mat-error *ngIf="perfilFormControl.invalid">{{retornaMensagemErro(perfilFormControl, 'Perfil',
-                        10)}}</mat-error>
-                </mat-form-field>-->
 
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-select id="perfil" placeholder="Perfil" [(ngModel)]="usuario.perfil"
@@ -66,12 +52,9 @@
                 <mat-form-field class="campo" *ngIf="cadastrando && usuario.perfil === 3">
                     <mat-select id="orfanato" placeholder="Orfanato" [(ngModel)]="usuario.idOrfanato"
                         [formControl]="orfanatoFormControl" name="orfanato" panelClass="positionClass" required>
-                        <mat-option [value]=1>Casa de Acolhimento Casa de Jeremias</mat-option>
-                        <mat-option [value]=2>Casa do Menino Jesus</mat-option>
-                        <mat-option [value]=3>Tia Júlia</mat-option>
-                        <!--<mat-option *ngFor="let orfanato of orfanatos; index as i" [value]=orfanato.id>
+                        <mat-option *ngFor="let orfanato of orfanatos; index as i" [value]=orfanato.id>
                             {{orfanato.nome}}
-                        </mat-option>-->
+                        </mat-option>
                     </mat-select>
                     <mat-error *ngIf="orfanatoFormControl.invalid">{{retornaMensagemErro(orfanatoFormControl, 'Orfanato',
                         10)}}</mat-error>
@@ -125,53 +108,3 @@
         </mat-card-actions>
     </mat-card>
 </div>
-
-
-
-<!--<form #loginForm="ngForm" (submit)="onSubmit();">
-    <mat-form-field class="form">
-        <mat-label>Login</mat-label>
-        <input matInput [(ngModel)]="username" type="text" name="login" placeholder="Digite seu login">
-    </mat-form-field>
-
-    <mat-form-field class="form" *ngIf="cadastrando">
-        <mat-label>Nome Completo</mat-label>
-        <input matInput [(ngModel)]="name" type="text" name="nome" placeholder="Digite seu nome completo">
-    </mat-form-field>
-
-
-    <mat-form-field class="form" *ngIf="cadastrando">
-        <mat-label>Telefone</mat-label>
-        <input matInput [(ngModel)]="phone" type="text" name="telefone" placeholder="Digite seu telefone">
-    </mat-form-field>
-
-    <mat-form-field class="form" *ngIf="cadastrando">
-        <mat-label>E-mail</mat-label>
-        <input matInput [(ngModel)]="email" type="text" name="email" placeholder="Digite seu e-mail">
-    </mat-form-field>
-
-    <mat-form-field class="form">
-        <mat-label>Senha</mat-label>
-        <input matInput [(ngModel)]="password" type="text" name="password" placeholder="Digite sua senha">
-    </mat-form-field>
-
-    <div class="buttons">
-        <button type="submit" class="mat-elevation-z8" mat-stroked-button color="primary"
-            *ngIf="!cadastrando">Entrar</button>
-        <button (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button color="primary"
-            *ngIf="cadastrando">Confirmar</button>
-        <button (click)="cancelaCadastro()" class="mat-elevation-z8" mat-stroked-button color="warn"
-            *ngIf="cadastrando">CANCELAR</button>
-        <button (click)="preparaCadastrar($event)" class="mat-elevation-z8" mat-stroked-button color="primary"
-            *ngIf="!cadastrando">Cadastrar</button>
-    </div>
-
-    <div>
-        <div>
-            <a href="#" (click)="preparaCadastrar($event)">
-                Não possui usuário? Cadastre-se!
-            </a>
-        </div>
-    </div>
-
-</form>-->

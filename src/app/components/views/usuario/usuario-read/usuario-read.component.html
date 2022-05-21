@@ -1,5 +1,5 @@
 <div class="content">
-    <form #formOrfanato="ngForm">
+    <form #formUsuario="ngForm">
         <h1>CONSULTAR USUÁRIO</h1>
 
         <mat-form-field class="campo">
@@ -26,7 +26,7 @@
             <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
             <!--<button class="mat-elevation-z8" (click)="incluirUsuario()" mat-stroked-button
                 color="primary">Incluir</button>-->
-            <button (click)="limpar(formOrfanato)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
+            <button (click)="limpar(formUsuario)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
             <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
         </div>
     </form>
@@ -81,6 +81,6 @@
     </div>
 
     <div *ngIf="usuarios.length === 0" class="app-empty-search-result" role="alert">
-        <span>Nenhum Orfanato encontrado.</span>
+        <span>Nenhum Usuário encontrado.</span>
     </div>
 </div>
