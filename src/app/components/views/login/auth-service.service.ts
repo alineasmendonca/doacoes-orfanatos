@@ -77,6 +77,7 @@ export class AuthService {
   }
 
   save(user: Usuario): Observable<any> {
+    console.log(JSON.stringify(user));
     return this.http.post<any>(this.apiURL, user);
   }
 

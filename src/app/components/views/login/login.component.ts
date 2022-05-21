@@ -45,7 +45,15 @@ export class LoginComponent {
     private authService: AuthService,
     private orfanatoService: OrfanatoService) {
       console.log('Entrei aqui 1');
-      this.orfanatoService.findByFilters(new Orfanato()).subscribe((orfanatos) => {
+      /*this.orfanatoService.findByFilters(new Orfanato()).subscribe((orfanatos) => {
+        this.orfanatos = orfanatos;
+        console.log(JSON.stringify(this.orfanatos));
+        this.orfanatos = _.orderBy(this.orfanatos, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
+      }, (error)=>{
+        console.log('Erro:', JSON.stringify(error));
+      });*/
+
+      this.authService.findOrfanatosByFilters(new Orfanato()).subscribe((orfanatos) => {
         this.orfanatos = orfanatos;
         console.log(JSON.stringify(this.orfanatos));
         this.orfanatos = _.orderBy(this.orfanatos, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
@@ -92,6 +100,7 @@ export class LoginComponent {
     if (this.senhaFormControl.value !== this.confirmacaoSenhaFormControl.value) {
       this.authService.mensagem('Senha e Confirmar Senha são diferentes');
     } else {
+      console.log(JSON.stringify(this.usuario));
       this.authService
         .save(this.usuario)
         .subscribe(() => {

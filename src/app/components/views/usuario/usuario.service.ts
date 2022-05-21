@@ -1,3 +1,4 @@
+import { Orfanato } from './../orfanato/orfanato-read/orfanato.model';
 import { Usuario } from './../user/usuario';
 import { UtilsService } from '../../../utils/utils-service';
 import { environment } from '../../../../environments/environment';
