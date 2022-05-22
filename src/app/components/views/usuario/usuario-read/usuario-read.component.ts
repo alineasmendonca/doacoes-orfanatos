@@ -27,7 +27,6 @@ export class UsuarioReadComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    console.log('displayedColumns:', this.displayedColumns);
     this.findAll();
   }
   

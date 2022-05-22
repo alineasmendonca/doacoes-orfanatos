@@ -55,7 +55,6 @@ export class UsuarioDeleteComponent implements OnInit {
 
   findById(): void {
     this.service.findById(this.usuario.id!).subscribe((usuario) => {
-      console.log(JSON.stringify(usuario));
       this.usuario = {...usuario};
     })
   }
