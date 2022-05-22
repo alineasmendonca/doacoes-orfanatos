@@ -9,6 +9,9 @@ import { User } from './user.model';
 import { Perfil } from 'src/app/enums/perfil';
 import { Orfanato } from '../orfanato/orfanato-read/orfanato.model';
 import * as _ from 'lodash';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { UsuarioService } from '../usuario/usuario.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +19,6 @@ import * as _ from 'lodash';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-
-  /*username: string = '';
-  nome: string = '';
-  senha: string = '';
-  phone: string = '';
-  email: string = '';*/
   usuario: Usuario = new Usuario();
   cadastrando: boolean = false;
   mensagemSucesso: string = '';
@@ -41,26 +38,20 @@ export class LoginComponent {
   valoresPerfis = Object.values(this.todosPerfis).filter(Number);
   orfanatos: Orfanato[] = new Array();
 
-  constructor(private router: Router,
-    private authService: AuthService,
-    private orfanatoService: OrfanatoService) {
-      console.log('Entrei aqui 1');
-      /*this.orfanatoService.findByFilters(new Orfanato()).subscribe((orfanatos) => {
-        this.orfanatos = orfanatos;
-        console.log(JSON.stringify(this.orfanatos));
-        this.orfanatos = _.orderBy(this.orfanatos, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
-      }, (error)=>{
-        console.log('Erro:', JSON.stringify(error));
-      });*/
+  private perfilUsuarioCorrenteSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  public perfilUsuarioCorrente: Observable<number> = new Observable<1>();
 
-      this.authService.findOrfanatosByFilters(new Orfanato()).subscribe((orfanatos) => {
-        this.orfanatos = orfanatos;
-        console.log(JSON.stringify(this.orfanatos));
-        this.orfanatos = _.orderBy(this.orfanatos, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
-      }, (error)=>{
-        console.log('Erro:', JSON.stringify(error));
-      });
-      console.log('Entrei aqui 2');
+  constructor(private router: Router,
+    private authService: AuthService) {
+    this.perfilUsuarioCorrenteSubject = new BehaviorSubject<number>(1);
+    this.perfilUsuarioCorrente = this.perfilUsuarioCorrenteSubject.asObservable();
+
+    this.authService.findOrfanatosByFilters(new Orfanato()).subscribe((orfanatos) => {
+      this.orfanatos = orfanatos;
+      this.orfanatos = _.orderBy(this.orfanatos, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
+    }, (error) => {
+      console.error('Erro:', JSON.stringify(error));
+    });
   }
 
   onSubmit() {
@@ -74,7 +65,7 @@ export class LoginComponent {
         this.authService.mensagem('Login ou Senha inválida.');
         console.error(err);
         this.errors = ['Usuário e/ou senha incorreto(s).']
-      })
+      });
   }
 
   preparaCadastrar(event: any) {
@@ -90,17 +81,9 @@ export class LoginComponent {
   }
 
   cadastrar() {
-    /*const user : User = new User();
-    user.username = this.username;
-    user.nome = this.nome;
-    user.senha = this.senha;
-    user.email = this.email;
-    user.phone = this.phone;*/
-
     if (this.senhaFormControl.value !== this.confirmacaoSenhaFormControl.value) {
       this.authService.mensagem('Senha e Confirmar Senha são diferentes');
     } else {
-      console.log(JSON.stringify(this.usuario));
       this.authService
         .save(this.usuario)
         .subscribe(() => {

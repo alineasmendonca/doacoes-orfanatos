@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 })
 export class UsuarioReadComponent implements OnInit {
   usuarios: Usuario[] = [];
-  displayedColumns: string[] = ['nome', 'email', 'telefoneCelular', 'telefoneFixo', 'endereco', 'perfil'];
+  displayedColumns: string[] = ['nome', 'login', 'email', 'telefoneCelular', 'telefoneFixo', 'endereco', 'perfil', 'acoes'];
   id_cat: number = 0;
   filtroUsuario: Usuario = new Usuario();
   categorias: Categoria[] = new Array();
@@ -27,6 +27,7 @@ export class UsuarioReadComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    console.log('displayedColumns:', this.displayedColumns);
     this.findAll();
   }
   
@@ -48,7 +49,6 @@ export class UsuarioReadComponent implements OnInit {
     this.service.findByFilters(filtroTodos).subscribe((resposta: Usuario[]) => {
       this.usuarios = resposta;
       this.ajustaListaDeUsuarios();
-      console.log(JSON.stringify(this.usuarios));
     })
   }
 

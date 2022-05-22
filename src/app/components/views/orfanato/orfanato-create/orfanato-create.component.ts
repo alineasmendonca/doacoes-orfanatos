@@ -36,8 +36,6 @@ export class OrfanatoCreateComponent implements OnInit {
     this.orfanato.historia = this.historia.value;
     this.orfanato.telefone = this.telefone.value;
 
-    console.log('Telefone: ', JSON.stringify(this.orfanato));
-    
     this.service.create(this.orfanato).subscribe(()=>{
       this.router.navigate(['orfanatos']);
       this.service.mensagem('Orfanato cadastrado com sucesso.');

@@ -7,7 +7,7 @@
             </a>
         </mat-nav-list>
         <mat-nav-list>
-            <a routerLink="/categorias" mat-list-item>
+            <a *ngIf="perfilUsuarioAutenticado === 1" routerLink="/categorias" mat-list-item>
                 <i class="material-icons">menu_book</i>
                 Categorias
             </a>
@@ -19,13 +19,13 @@
             </a>
         </mat-nav-list>
         <mat-nav-list>
-            <a routerLink="/orfanatos" mat-list-item>
+            <a *ngIf="perfilUsuarioAutenticado === 1" routerLink="/orfanatos" mat-list-item>
                 <i class="material-icons">child_care</i>
                 Orfanatos
             </a>
         </mat-nav-list>
         <mat-nav-list>
-            <a routerLink="/usuarios" mat-list-item>
+            <a *ngIf="perfilUsuarioAutenticado === 1" routerLink="/usuarios" mat-list-item>
                 <i class="material-icons">person</i>
                 Usuários
             </a>

@@ -1,0 +1,45 @@
+<div class="content">
+    <form>
+        <h1>EXCLUIR USUÁRIO</h1>
+        <mat-form-field class="form">
+            <mat-label>Nome</mat-label>
+            <textarea matInput [(ngModel)]="usuario.nome" type="text" name="nome"
+                placeholder="Ex.: Casa de Acolhimento Casa de Jeremias" maxlength="250" cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" disabled></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>Endereço</mat-label>
+            <textarea matInput [(ngModel)]="usuario.endereco" type="text" name="endereco"
+                placeholder="Ex.: Avenida Pontes Vieira 125, Bairro São João do Tauape" maxlength="250"
+                cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10"
+                disabled></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>E-mail</mat-label>
+            <input matInput [(ngModel)]="usuario.email" type="text"
+                name="email" placeholder="E-mail" disabled>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>Telefone Fixo</mat-label>
+            <input matInput [(ngModel)]="usuario.telefoneFixo" type="text"
+                name="telefoneFixo" placeholder="Telefone Fixo" disabled>
+        </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>Telefone Celular</mat-label>
+            <input matInput [(ngModel)]="usuario.telefoneCelular" type="text"
+                name="telefoneCelular" placeholder="Telefone Celular" disabled>
+        </mat-form-field>
+
+        <div class="buttons">
+            <div class="buttons">
+                <button (click)="excluirUsuario()" class="mat-elevation-z8" mat-stroked-button color="primary">Excluir</button>
+                <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>
+

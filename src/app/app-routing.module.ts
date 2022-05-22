@@ -17,6 +17,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoriaCreateComponent } from './components/views/categoria/categoria-create/categoria-create.component';
 import { DoacaoReadComponent } from './components/views/doacao/doacao-read/doacao-read.component';
 import { AuthGuard } from './auth.guard';
+import { UsuarioDeleteComponent } from './components/views/usuario/usuario-delete/usuario-delete.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -91,17 +92,17 @@ const routes: Routes = [
         path:'usuarios',
         component: UsuarioReadComponent,
         canActivate : [AuthGuard]
-      }/*,
+      },/*
       {
         path:'orfanatos/create',
         component: OrfanatoCreateComponent,
         canActivate : [AuthGuard]
-      },
+      },*/
       {
-        path:'orfanatos/delete/:id',
-        component: OrfanatoDeleteComponent,
+        path:'usuarios/delete/:id',
+        component: UsuarioDeleteComponent,
         canActivate : [AuthGuard]
-      },
+      }/*,
       {
         path:'orfanatos/update/:id',
         component: OrfanatoUpdateComponent,

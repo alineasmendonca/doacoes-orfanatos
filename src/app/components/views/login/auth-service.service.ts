@@ -1,3 +1,4 @@
+import { UsuarioService } from './../usuario/usuario.service';
 import { Orfanato } from './../orfanato/orfanato-read/orfanato.model';
 import { UtilsService } from 'src/app/utils/utils-service';
 import { Usuario } from './../user/usuario';
@@ -5,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { User } from './user.model';
 
@@ -27,9 +28,15 @@ export class AuthService {
   public headers = { 'Content-Type': 'application/json' };
   baseUrl: string = environment.baseUrl;
 
+  private perfilUsuarioCorrenteSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  public perfilUsuarioCorrente: Observable<number> = new Observable<1>();
+
   constructor(private http: HttpClient,
-    private snack: MatSnackBar) {
+    private snack: MatSnackBar,
+    private usuarioService: UsuarioService) {
     this.getUser();
+    this.perfilUsuarioCorrenteSubject = new BehaviorSubject<number>(1);
+    this.perfilUsuarioCorrente = this.perfilUsuarioCorrenteSubject.asObservable();
    }
 
   obterToken() {
@@ -77,7 +84,6 @@ export class AuthService {
   }
 
   save(user: Usuario): Observable<any> {
-    console.log(JSON.stringify(user));
     return this.http.post<any>(this.apiURL, user);
   }
 
@@ -91,10 +97,27 @@ export class AuthService {
       .set('password', password)
       .set('grant_type', 'password')
     const headers = {
-      //'clientID:clientSecret'
       'Authorization': 'Basic ' + btoa(`${this.clientID}:${this.clientSecret}`),
       'Content-Type': 'application/x-www-form-urlencoded'
     }
+
+    // Buscar dados do usuário logado
+    const filtroUsuarioAutenticado: Usuario = new Usuario();
+    let perfilUsuarioAutenticado: number;
+    let usuarioAutenticado: Usuario = new Usuario();
+    filtroUsuarioAutenticado.username = username;
+    this.usuarioService.findByFilters(filtroUsuarioAutenticado).subscribe((resposta: Usuario[]) => {
+      usuarioAutenticado = resposta[0];
+      if (usuarioAutenticado.perfil != null) {
+        perfilUsuarioAutenticado = usuarioAutenticado.perfil;
+        this.perfilUsuarioCorrenteSubject.next(perfilUsuarioAutenticado);
+      }
+
+      sessionStorage.setItem('usuarioAutenticado', JSON.stringify(filtroUsuarioAutenticado));
+      if (usuarioAutenticado.perfil) {
+        sessionStorage.setItem('perfilUsuarioAutenticado', usuarioAutenticado.perfil?.toString());
+      }
+    });
 
     return this.http.post(this.tokenURL, params.toString(), { headers: headers });
 
@@ -138,12 +161,9 @@ export class AuthService {
   }
 
   public findOrfanatosByFilters(filtrosOrfanato: Orfanato): Observable<Orfanato[]> {
-    console.log('Entrei aqui');
     const url = `${this.apiURL}/orfanatos`;
     const queryParams: HttpParams = UtilsService.buildQueryParams(filtrosOrfanato);
 
-    console.log(JSON.stringify(queryParams));
-    
     return this.http
       .get<Orfanato[]>(url,
         {

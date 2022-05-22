@@ -35,7 +35,6 @@ export class OrfanatoReadComponent implements OnInit {
     this.service.findByFilters(filtroTodos).subscribe(resposta => {
       this.orfanatos = resposta;
       this.orfanatos = _.orderBy(this.orfanatos, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
-      console.log(JSON.stringify(this.orfanatos));
     })
   }
 
