@@ -109,6 +109,4 @@ export class DoacaoUpdateComponent implements OnInit {
     }
     return false;
   }
-
-
 }

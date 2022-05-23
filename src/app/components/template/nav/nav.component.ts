@@ -18,6 +18,7 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.authService.perfilUsuarioCorrente.subscribe((perfil)=>{
       this.perfilUsuarioAutenticado = perfil;
+      console.log('Perfil do Usuário autenticado:', this.perfilUsuarioAutenticado);
     })
   }
 
