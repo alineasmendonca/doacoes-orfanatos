@@ -45,8 +45,8 @@ export class UsuarioReadComponent implements OnInit {
   }
   findAll(): void {
     let filtroTodos: Usuario = new Usuario();
-    this.service.findByFilters(filtroTodos).subscribe((resposta: Usuario[]) => {
-      this.usuarios = resposta;
+    this.service.findByFilters(filtroTodos).subscribe((usuarios: Usuario[]) => {
+      this.usuarios = usuarios;
       this.ajustaListaDeUsuarios();
     })
   }

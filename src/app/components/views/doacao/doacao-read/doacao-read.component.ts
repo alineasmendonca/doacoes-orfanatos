@@ -1,3 +1,4 @@
+import { AuthService } from './../../login/auth-service.service';
 import { CategoriaService } from './../../categoria/categoria.service';
 import { Utils } from './../../../../utils/utils';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,13 +16,15 @@ import * as _ from 'lodash';
 })
 export class DoacaoReadComponent implements OnInit {
   doacoes: Doacao[] = [];
-  displayedColumns: string[] = ['descricao', 'quantidade', 'acoes'];
+  displayedColumns: string[] = ['descricao', 'quantidade', 'localRetirada', 'acoes'];
   id_cat: number = 0;
   filtroDoacao: Doacao = new Doacao();
   categorias: Categoria[] = new Array();
+  perfilUsuarioAutenticado: number | null = 1;
 
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -31,6 +34,9 @@ export class DoacaoReadComponent implements OnInit {
       this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
     
     });
+    this.authService.perfilUsuarioCorrente.subscribe((perfil)=>{
+      this.perfilUsuarioAutenticado = perfil;
+    })
     this.findAll();
 
   }
@@ -45,6 +51,7 @@ export class DoacaoReadComponent implements OnInit {
     let filtroTodos: Doacao = new Doacao();
     this.service.findByFilters(filtroTodos).subscribe(resposta => {
       this.doacoes = resposta;
+      this.doacoes = _.orderBy(this.doacoes, [i => i?.descricao?.toLocaleLowerCase()], ['asc']);
     })
   }
 
@@ -55,6 +62,7 @@ export class DoacaoReadComponent implements OnInit {
   pesquisar(): void {
     this.service.findByFilters(this.filtroDoacao).subscribe(resposta => {
       this.doacoes = resposta;
+      this.doacoes = _.orderBy(this.doacoes, [i => i?.descricao?.toLocaleLowerCase()], ['asc']);
     })
   }
 

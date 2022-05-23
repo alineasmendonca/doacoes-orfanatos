@@ -16,6 +16,8 @@ export class DoacaoCreateComponent implements OnInit {
   descricao = new FormControl('', [Validators.required, Validators.minLength(5)]);
   quantidade = new FormControl('', [Validators.required]);
   categoria = new FormControl('', [Validators.required, Validators.min(1)]);
+  localRetirada = new FormControl('', [Validators.required, Validators.minLength(5)]);
+
   doacao: Doacao = new Doacao();
   categorias: Categoria[] = new Array();
 
@@ -75,6 +77,16 @@ export class DoacaoCreateComponent implements OnInit {
   retornaMensagemDeErroCategoria() {
     if(this.categoria.hasError('required')){
       return 'O campo Categoria é obrigatório.';
+    }
+    return false;
+  }
+
+  retornaMensagemDeErroLocalRetirada() {
+    if(this.localRetirada.hasError('required')){
+      return 'O campo Local de Retirada é obrigatório.';
+    }
+    if(this.localRetirada.invalid){
+      return 'O campo Local de Retirada deve ter pelo menos 3 caracteres.';
     }
     return false;
   }

@@ -10,15 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   perfilUsuarioAutenticado: number | null = 1;
-  perfilUsuarioAutenticadoString: string | null = '';
   usuarioAutenticado: Usuario = new Usuario();
 
   constructor(private authService: AuthService,
               private router: Router ) { }
 
   ngOnInit(): void {
-    this.perfilUsuarioAutenticadoString = sessionStorage.getItem('perfilUsuarioAutenticado');
-    
     this.authService.perfilUsuarioCorrente.subscribe((perfil)=>{
       this.perfilUsuarioAutenticado = perfil;
     })

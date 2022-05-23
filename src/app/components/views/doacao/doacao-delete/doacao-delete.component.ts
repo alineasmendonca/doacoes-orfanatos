@@ -62,11 +62,8 @@ export class DoacaoDeleteComponent implements OnInit {
   }
 
   findById(): void {
-    this.service.findById(this.doacao.id!).subscribe((resposta) => {
-      this.doacao.descricao = resposta.descricao;
-      // this.doacao.categoria = resposta.categoria;
-      this.doacao.idCategoria = resposta.idCategoria;
-      this.doacao.quantidade = resposta.quantidade;
+    this.service.findById(this.doacao.id!).subscribe((doacao) => {
+      this.doacao = {...doacao};
     })
   }
 }

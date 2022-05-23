@@ -24,7 +24,7 @@
 
         <div class="buttons">
             <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
-            <button class="mat-elevation-z8" (click)="incluirDoacao()" mat-stroked-button
+            <button *ngIf="perfilUsuarioAutenticado === 2" class="mat-elevation-z8" (click)="incluirDoacao()" mat-stroked-button
                 color="primary">Incluir</button>
             <button (click)="limpar(formDoacao)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
             <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
@@ -44,6 +44,11 @@
             <ng-container matColumnDef="quantidade">
                 <th mat-header-cell *matHeaderCellDef>Quantidade</th>
                 <td mat-cell *matCellDef="let row; let i = index">{{row.quantidade}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="localRetirada">
+                <th mat-header-cell *matHeaderCellDef>Local de Retirada</th>
+                <td mat-cell *matCellDef="let row; let i = index">{{row.localRetirada}}</td>
             </ng-container>
 
             <!--<ng-container matColumnDef="doacoes">

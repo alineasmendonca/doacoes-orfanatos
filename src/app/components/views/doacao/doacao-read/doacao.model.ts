@@ -5,5 +5,6 @@ export class Doacao {
     // categoria?: Categoria;
     descricao?: string;
     quantidade?: number;
+    localRetirada?: string;
     // Colocar os demais campos aqui
 }

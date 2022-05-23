@@ -21,6 +21,13 @@
             <input matInput [(ngModel)]="doacao.quantidade" type="text" name="quantidade"
                 placeholder="Quantidade" maxlength="5" mask="99999" disabled>
         </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>Local de Retirada</mat-label>
+            <textarea matInput [(ngModel)]="doacao.localRetirada" type="text" name="localRetirada"
+                placeholder="Ex.: Avenida Pontes Vieira 125, Bairro São João do Tauape" maxlength="250"
+                cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" disabled></textarea>
+        </mat-form-field>
         <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
 
         <div class="buttons">
