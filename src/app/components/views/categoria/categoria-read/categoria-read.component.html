@@ -14,6 +14,8 @@
             <button class="mat-elevation-z8"(click)="pesquisar()" mat-stroked-button color="primary">Pesquisar</button>
             <button class="mat-elevation-z8" (click)="incluirCategoria()" mat-stroked-button color="primary">Incluir</button>
             <button class="mat-elevation-z8" (click)="limpar(formCategoria)" mat-stroked-button color="warn">Limpar</button>
+            <button *ngIf="categorias.length > 0" (click)="exportar()" class="mat-elevation-z8" mat-stroked-button
+                color="primary">Exportar</button>
             <button class="mat-elevation-z8" (click)="voltar()" mat-stroked-button color="warn">Voltar</button>
         </div>
     </form>
@@ -45,6 +47,28 @@
                 </td>
             </ng-container>
         </table>
+
+        <div class="container">
+            <table class="table" #tabelaCategorias [hidden]="true">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let categoria of categorias;index as i">
+                        <td>
+                            {{categoria.nome}}
+                        </td>
+                        <td>
+                            {{categoria.descricao}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 
     <div *ngIf="categorias.length === 0" class="app-empty-search-result" role="alert">

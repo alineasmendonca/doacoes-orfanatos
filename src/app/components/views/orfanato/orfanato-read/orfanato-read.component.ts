@@ -4,9 +4,10 @@ import { CategoriaService } from '../../categoria/categoria.service';
 import { Utils } from '../../../../utils/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Categoria } from '../../categoria/categoria-read/categoria.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as _ from 'lodash';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-orfanato-read',
@@ -19,10 +20,9 @@ export class OrfanatoReadComponent implements OnInit {
   id_cat: number = 0;
   filtroOrfanato:Orfanato = new Orfanato();
   categorias: Categoria[] = new Array();
+  @ViewChild('tabelaOrfanatos') tabelaOrfanatos;
 
   constructor(private service: OrfanatoService,
-    private categoriaService: CategoriaService,
-    private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -57,6 +57,15 @@ export class OrfanatoReadComponent implements OnInit {
     form.reset();
     this.filtroOrfanato = new Orfanato();
     this.findAll();
+  }
+
+  exportar() {
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.tabelaOrfanatos.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const wscols = [{ wch: 60 }, { wch: 60 }, { wch: 20 }];
+    ws['!cols'] = wscols;
+    XLSX.utils.book_append_sheet(wb, ws, 'Orfanatos');
+    XLSX.writeFile(wb, 'Orfanatos.xlsx');
   }
 
 }

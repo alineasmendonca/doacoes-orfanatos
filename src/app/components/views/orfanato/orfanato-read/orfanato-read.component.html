@@ -16,6 +16,8 @@
             <button class="mat-elevation-z8" (click)="incluirOrfanato()" mat-stroked-button
                 color="primary">Incluir</button>
             <button (click)="limpar(formOrfanato)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
+            <button *ngIf="orfanatos.length > 0" (click)="exportar()" class="mat-elevation-z8" mat-stroked-button
+                color="primary">Exportar</button>
             <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
         </div>
     </form>
@@ -52,6 +54,32 @@
                 </td>
             </ng-container>
         </table>
+
+        <div class="container">
+            <table class="table" #tabelaOrfanatos [hidden]="true">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Quantidade de Crianças</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let orfanato of orfanatos;index as i">
+                        <td>
+                            {{orfanato.nome}}
+                        </td>
+                        <td>
+                            {{orfanato.endereco}}
+                        </td>
+                        <td>
+                            {{orfanato.quantidadeCriancas}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
     </div>
 
     <div *ngIf="orfanatos.length === 0" class="app-empty-search-result" role="alert">

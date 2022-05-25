@@ -2,9 +2,9 @@ import { AuthService } from './../../login/auth-service.service';
 import { NgForm } from '@angular/forms';
 import { Categoria } from './categoria.model';
 import { CategoriaService } from './../categoria.service';
-import { Component, OnInit } from '@angular/core';
-import { ThrowStmt } from '@angular/compiler';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-categoria-read',
@@ -15,6 +15,7 @@ export class CategoriaReadComponent implements OnInit {
   categorias: Categoria[] = [];
   displayedColumns: string[] = ['nome', 'descricao', 'acoes'];
   filtroCategoria: Categoria = new Categoria();
+  @ViewChild('tabelaCategorias') tabelaCategorias;
 
   constructor(private service: CategoriaService,
     private authService: AuthService,
@@ -50,6 +51,15 @@ export class CategoriaReadComponent implements OnInit {
     form.reset();
     this.filtroCategoria = new Categoria();
     this.findAll();
+  }
+
+  exportar() {
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.tabelaCategorias.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const wscols = [{ wch: 40 }, { wch: 60 }];
+    ws['!cols'] = wscols;
+    XLSX.utils.book_append_sheet(wb, ws, 'Categorias');
+    XLSX.writeFile(wb, 'Categorias.xlsx');
   }
 
 }

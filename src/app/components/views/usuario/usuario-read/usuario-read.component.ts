@@ -4,9 +4,10 @@ import { UsuarioService } from './../usuario.service';
 import { Usuario } from './../../user/usuario';
 import { Router } from '@angular/router';
 import { Categoria } from '../../categoria/categoria-read/categoria.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as _ from 'lodash';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-usuario-read',
@@ -22,6 +23,8 @@ export class UsuarioReadComponent implements OnInit {
 
   todosPerfis = Perfil;
   valoresPerfis = Object.values(this.todosPerfis).filter(Number);
+  
+  @ViewChild('tabelaUsuarios') tabelaUsuarios;
 
   constructor(private service: UsuarioService,
     private router: Router) { }
@@ -75,5 +78,15 @@ export class UsuarioReadComponent implements OnInit {
   rotuloPerfil(perfil: number | string | Perfil): string {
     return UtilsEnum.retornaRotuloPerfil(perfil);
   }
+
+  exportar() {
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.tabelaUsuarios.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const wscols = [{ wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 20 }];
+    ws['!cols'] = wscols;
+    XLSX.utils.book_append_sheet(wb, ws, 'Usuários');
+    XLSX.writeFile(wb, 'Usuários.xlsx');
+  }
+
 
 }

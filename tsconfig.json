@@ -1,5 +1,36 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
+
 {
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es5",
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2019", "es2018", "dom"],
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@environments/*": ["src/environments/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}
+/*{
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
@@ -27,4 +58,4 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   }
-}
+}*/

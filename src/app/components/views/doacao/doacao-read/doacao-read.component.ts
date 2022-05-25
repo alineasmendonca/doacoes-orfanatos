@@ -4,10 +4,11 @@ import { Utils } from './../../../../utils/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DoacaoService } from './../doacao.service';
 import { Categoria } from './../../categoria/categoria-read/categoria.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Doacao } from './doacao.model';
 import { NgForm } from '@angular/forms';
 import * as _ from 'lodash';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-doacao-read',
@@ -21,6 +22,7 @@ export class DoacaoReadComponent implements OnInit {
   filtroDoacao: Doacao = new Doacao();
   categorias: Categoria[] = new Array();
   perfilUsuarioAutenticado: number | null = 1;
+  @ViewChild('tabelaDoacoes') tabelaDoacoes;
 
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
@@ -74,6 +76,15 @@ export class DoacaoReadComponent implements OnInit {
     form.reset();
     this.filtroDoacao = new Doacao();
     this.findAll();
+  }
+  
+  exportar() {
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.tabelaDoacoes.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const wscols = [{ wch: 60 }, { wch: 20 }, { wch: 60 }];
+    ws['!cols'] = wscols;
+    XLSX.utils.book_append_sheet(wb, ws, 'Doações');
+    XLSX.writeFile(wb, 'Doacoes.xlsx');
   }
 
 }
