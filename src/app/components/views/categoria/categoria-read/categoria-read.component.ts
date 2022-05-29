@@ -5,6 +5,7 @@ import { CategoriaService } from './../categoria.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-categoria-read',
@@ -30,12 +31,14 @@ export class CategoriaReadComponent implements OnInit {
     let filtroTodos: Categoria = new Categoria();
     this.service.findByFilters(filtroTodos).subscribe(resposta => {
       this.categorias = resposta;
+      this.categorias = _.orderBy(this.categorias,[(i) => i.nome?.toLocaleLowerCase()],['asc']);
     })
   }
 
   pesquisar(): void {
     this.service.findByFilters(this.filtroCategoria).subscribe(resposta => {
       this.categorias = resposta;
+      this.categorias = _.orderBy(this.categorias,[(i) => i.nome?.toLocaleLowerCase()],['asc']);
     })
   }
 

@@ -1,3 +1,4 @@
+import { Perfil } from 'src/app/enums/perfil';
 import { SituacaoDoacao } from './../../../../enums/situacao-doacao';
 import { UtilsEnum } from './../../../../utils/utils-enum';
 import { Usuario } from './../../user/usuario';
@@ -11,6 +12,7 @@ import { Doacao } from './doacao.model';
 import { NgForm } from '@angular/forms';
 import * as _ from 'lodash';
 import * as XLSX from 'xlsx';
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
 
 @Component({
   selector: 'app-doacao-read',
@@ -86,6 +88,12 @@ export class DoacaoReadComponent implements OnInit {
         doacao.situacaoRotulo = this.rotuloSituacaoDoacao(doacao.situacao)
       }
     });
+    
+    // Ajustar aqui
+    if(this.usuarioAutenticado.perfil === Perfil.DOADOR){
+      this.doacoes = this.doacoes.filter((doacao)=> doacao.idDoador === this.usuarioAutenticado.id);
+    }
+
     this.doacoes = _.orderBy(this.doacoes, [i => i?.descricao?.toLocaleLowerCase()], ['asc']);
   }
 

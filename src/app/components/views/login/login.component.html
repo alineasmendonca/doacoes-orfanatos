@@ -25,25 +25,30 @@
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-label>Telefone Celular</mat-label>
                     <input matInput [(ngModel)]="usuario.telefoneCelular" [formControl]="telefoneCelularFormControl"
-                        type="text" name="telefoneCelular" placeholder="Digite seu telefone celular" maxlength="13" 
+                        type="text" name="telefoneCelular" placeholder="Digite seu telefone celular" maxlength="13"
                         mask="(00)000000000" required>
                     <mat-error *ngIf="telefoneCelularFormControl.invalid">
-                        {{retornaMensagemErro(telefoneCelularFormControl, 'Telefone Celular', 10)}}</mat-error>
+                        {{retornaMensagemErro(telefoneCelularFormControl, 'Telefone Celular', 11)}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-label>Telefone Fixo</mat-label>
                     <input matInput [(ngModel)]="usuario.telefoneFixo" [formControl]="telefoneFixoFormControl"
-                        type="text" name="telefoneFixo" maxlength="12" mask="(00)00000000" placeholder="Digite seu telefone fixo">
+                        type="text" name="telefoneFixo" maxlength="12" mask="(00)00000000"
+                        placeholder="Digite seu telefone fixo" required>
+                    <mat-error *ngIf="telefoneFixoFormControl.invalid">
+                        {{retornaMensagemErro(telefoneFixoFormControl, 'Telefone Fixo', 10)}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="campo" *ngIf="cadastrando">
                     <mat-select id="perfil" placeholder="Perfil" [(ngModel)]="usuario.perfil"
                         [formControl]="perfilFormControl" name="perfil" panelClass="positionClass" required>
                         <mat-option></mat-option>
-                        <mat-option *ngFor="let valor of valoresPerfis; index as i" [value]=valor>
+                        <mat-option [value]=2>Doador</mat-option>
+                        <mat-option [value]=3>Responsável por Orfanato</mat-option>
+                        <!--<mat-option *ngFor="let valor of valoresPerfis; index as i" [value]=valor>
                             {{rotuloPerfil(valor)}}
-                        </mat-option>
+                        </mat-option>-->
                     </mat-select>
                     <mat-error *ngIf="perfilFormControl.invalid">{{retornaMensagemErro(perfilFormControl, 'Perfil',
                         10)}}</mat-error>
@@ -56,7 +61,8 @@
                             {{orfanato.nome}}
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="orfanatoFormControl.invalid">{{retornaMensagemErro(orfanatoFormControl, 'Orfanato',
+                    <mat-error *ngIf="orfanatoFormControl.invalid">{{retornaMensagemErro(orfanatoFormControl,
+                        'Orfanato',
                         10)}}</mat-error>
                 </mat-form-field>
 

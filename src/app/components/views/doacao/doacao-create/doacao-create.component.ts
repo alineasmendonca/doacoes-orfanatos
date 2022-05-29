@@ -51,6 +51,8 @@ export class DoacaoCreateComponent implements OnInit {
     this.doacao.idCategoria = this.categoria.value;
     this.doacao.idDoador = this.usuarioAutenticado.id;
 
+    console.log('Doação para cadastro:', JSON.stringify(this.doacao));
+
     this.service.create(this.doacao).subscribe(()=>{
       this.router.navigate(['doacoes']);
       this.service.mensagem('Doação cadastrada com sucesso.');

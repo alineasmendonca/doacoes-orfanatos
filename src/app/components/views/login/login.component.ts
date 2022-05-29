@@ -25,8 +25,8 @@ export class LoginComponent {
   errors: String[] = new Array();
   nomeCompletoFormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
   enderecoFormControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
-  telefoneCelularFormControl = new FormControl('', [Validators.required]);
-  telefoneFixoFormControl = new FormControl('', []);
+  telefoneCelularFormControl = new FormControl('', [Validators.required,  Validators.minLength(11)]);
+  telefoneFixoFormControl = new FormControl('', [Validators.required,  Validators.minLength(10)]);
   perfilFormControl = new FormControl('', [Validators.required]);
   emailFormControl = new FormControl('', [Validators.required, Validators.minLength(10), Validators.email]);
   loginFormControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
