@@ -1,3 +1,4 @@
+import { SituacaoDoacao } from './../enums/situacao-doacao';
 import { Perfil } from "../enums/perfil";
 
 export class UtilsEnum {
@@ -8,6 +9,16 @@ export class UtilsEnum {
                 ? 'Doador'
                 : Perfil.RESPONSAVEL_ORFANATO === perfil
                     ? 'Responsável por Orfanato'
+                    : '';
+    }
+
+    public static retornaRotuloSituacaoDoacao(situacaoDoacao: number | string | Perfil): string {
+        return SituacaoDoacao.CRIADA === situacaoDoacao
+            ? 'Criada'
+            : SituacaoDoacao.LIBERADA === situacaoDoacao
+                ? 'Liberada'
+                : SituacaoDoacao.AUTORIZADA === situacaoDoacao
+                    ? 'Autorizada'
                     : '';
     }
 }

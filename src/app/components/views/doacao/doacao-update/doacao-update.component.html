@@ -36,7 +36,7 @@
 
         <div class="buttons">
             <div class="buttons">
-                <button *ngIf="usuarioAutenticado.perfil === 2 && doacao.situacao === 1" [disabled]="retornaMensagemDeErroDescricao() || retornaMensagemDeErroQuantidade() || retornaMensagemDeErroCategoria() || retornaMensagemDeErroLocalRetirada()" (click)="atualizarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Salvar</button>
+                <button *ngIf="usuarioAutenticado.perfil === 2 && doacao.situacao === 1" [disabled]="retornaMensagemDeErroDescricao() || retornaMensagemDeErroQuantidade() || retornaMensagemDeErroCategoria() || retornaMensagemDeErroLocalRetirada()" (click)="atualizarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Alterar</button>
                 <button *ngIf="usuarioAutenticado.perfil === 2 && doacao.situacao === 1"  (click)="liberarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Liberar</button>
                 <button *ngIf="usuarioAutenticado.perfil === 1 && doacao.situacao === 2 && dataPermiteAutorizarDoacao()"  (click)="autorizarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Autorizar</button>
                 <button *ngIf="usuarioAutenticado.perfil === 3 && doacao.situacao === 2 && dataPermiteDemonstrarOuDesfazerInteresse()"  (click)="demonstrarInteresse()" class="mat-elevation-z8" mat-stroked-button color="primary">Demonstrar Interesse</button>

@@ -11,5 +11,6 @@ export class Doacao {
     dataAutorizacao: string;
     idDoador: number;
     situacao: number;
+    situacaoRotulo: string;
     // Colocar os demais campos aqui
 }

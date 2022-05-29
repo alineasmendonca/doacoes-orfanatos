@@ -1,7 +1,8 @@
+import { SituacaoDoacao } from './../../../../enums/situacao-doacao';
+import { UtilsEnum } from './../../../../utils/utils-enum';
 import { Usuario } from './../../user/usuario';
 import { AuthService } from './../../login/auth-service.service';
 import { CategoriaService } from './../../categoria/categoria.service';
-import { Utils } from './../../../../utils/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DoacaoService } from './../doacao.service';
 import { Categoria } from './../../categoria/categoria-read/categoria.model';
@@ -18,29 +19,34 @@ import * as XLSX from 'xlsx';
 })
 export class DoacaoReadComponent implements OnInit {
   doacoes: Doacao[] = [];
-  displayedColumns: string[] = ['descricao', 'quantidade', 'localRetirada', 'acoes'];
+  displayedColumns: string[] = ['descricao', 'quantidade', 'localRetirada', 'situacaoRotulo', 'acoes'];
   id_cat: number = 0;
   filtroDoacao: Doacao = new Doacao();
   categorias: Categoria[] = new Array();
   usuarioAutenticado: Usuario = new Usuario();
+
+  todasSituacoesDoacao = SituacaoDoacao;
+  valoresSituacoesDoacao = Object.values(this.todasSituacoesDoacao).filter(Number);
+
+
   @ViewChild('tabelaDoacoes') tabelaDoacoes;
+
 
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
     private authService: AuthService,
-    private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
     this.categoriaService.findByFilters(new Categoria()).subscribe((categorias) => {
       this.categorias = categorias;
       this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
-    
+
     });
 
-    this.authService.usuarioAutenticado.subscribe((usuario)=>{
+    this.authService.usuarioAutenticado.subscribe((usuario) => {
       this.usuarioAutenticado = usuario;
-    }, (error)=>{
+    }, (error) => {
       console.log(error);
     });
 
@@ -57,8 +63,7 @@ export class DoacaoReadComponent implements OnInit {
   findAll(): void {
     let filtroTodos: Doacao = new Doacao();
     this.service.findByFilters(filtroTodos).subscribe(resposta => {
-      this.doacoes = resposta;
-      this.doacoes = _.orderBy(this.doacoes, [i => i?.descricao?.toLocaleLowerCase()], ['asc']);
+      this.ajustaDoacoes(resposta);
     })
   }
 
@@ -67,10 +72,25 @@ export class DoacaoReadComponent implements OnInit {
   }
 
   pesquisar(): void {
+    console.log('Filtros doação:', JSON.stringify(this.filtroDoacao));
     this.service.findByFilters(this.filtroDoacao).subscribe(resposta => {
-      this.doacoes = resposta;
-      this.doacoes = _.orderBy(this.doacoes, [i => i?.descricao?.toLocaleLowerCase()], ['asc']);
+      console.log(JSON.stringify(resposta));
+      this.ajustaDoacoes(resposta);
     })
+  }
+
+  ajustaDoacoes(resposta: Doacao[]): void {
+    this.doacoes = resposta;
+    this.doacoes.forEach((doacao) => {
+      if (doacao.situacao) {
+        doacao.situacaoRotulo = this.rotuloSituacaoDoacao(doacao.situacao)
+      }
+    });
+    this.doacoes = _.orderBy(this.doacoes, [i => i?.descricao?.toLocaleLowerCase()], ['asc']);
+  }
+
+  rotuloSituacaoDoacao(situacao: number | string | SituacaoDoacao): string {
+    return UtilsEnum.retornaRotuloSituacaoDoacao(situacao);
   }
 
   voltar(): void {
@@ -82,9 +102,9 @@ export class DoacaoReadComponent implements OnInit {
     this.filtroDoacao = new Doacao();
     this.findAll();
   }
-  
+
   exportar() {
-    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.tabelaDoacoes.nativeElement);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.tabelaDoacoes.nativeElement);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const wscols = [{ wch: 60 }, { wch: 20 }, { wch: 60 }];
     ws['!cols'] = wscols;
