@@ -1,6 +1,6 @@
 <div class="content">
     <form #formCategoria="ngForm">
-        <h1>CONSULTAR CATEGORIA</h1>
+        <h1>Consultar Categoria</h1>
         <mat-form-field class="campo">
             <mat-label>Nome</mat-label>
             <input matInput [(ngModel)]="filtroCategoria.nome" type="text" name="nome">
@@ -12,8 +12,8 @@
     
         <div class="buttons">
             <button class="mat-elevation-z8"(click)="pesquisar()" mat-stroked-button color="primary">Pesquisar</button>
-            <button class="mat-elevation-z8" (click)="incluirCategoria()" mat-stroked-button color="primary">Incluir</button>
             <button class="mat-elevation-z8" (click)="limpar(formCategoria)" mat-stroked-button color="warn">Limpar</button>
+            <button class="mat-elevation-z8" (click)="incluirCategoria()" mat-stroked-button color="primary">Incluir</button>
             <button *ngIf="categorias.length > 0" (click)="exportar()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Exportar</button>
             <button class="mat-elevation-z8" (click)="voltar()" mat-stroked-button color="warn">Voltar</button>

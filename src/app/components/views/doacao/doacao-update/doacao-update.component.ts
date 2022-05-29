@@ -1,3 +1,5 @@
+import { Usuario } from './../../user/usuario';
+import { AuthService } from './../../login/auth-service.service';
 import { CategoriaService } from './../../categoria/categoria.service';
 import { Categoria } from './../../categoria/categoria-read/categoria.model';
 import { Utils } from './../../../../utils/utils';
@@ -23,12 +25,25 @@ export class DoacaoUpdateComponent implements OnInit {
   categorias: Categoria[] = new Array();
   doacao: Doacao = new Doacao();
 
+  usuarioAutenticado: Usuario = new Usuario();
+  dataLiberacao: Date = new Date();
+  dataFinalDemonstracaoInteresse: Date = new Date();
+
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.authService.usuarioAutenticado.subscribe((usuario)=>{
+      this.usuarioAutenticado = usuario;
+    }, (error)=>{
+      console.error(error);
+    });
+
+
+
     this.categoriaService.findByFilters(new Categoria()).subscribe((categorias) => {
       this.categorias = categorias;
       this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
@@ -61,6 +76,69 @@ export class DoacaoUpdateComponent implements OnInit {
 
   }
 
+  liberarDoacao(): void {
+    this.service.liberar(this.doacao).subscribe((resposta) => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Doação liberada com sucesso.');
+    }, err => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Falha ao liberar doação. Tente novamente mais tarde.');
+      for(let i= 0; i < err.error.errors.length; i++){
+        this.service.mensagem(err.error.errors[i].message);
+      }
+    }
+
+    );
+
+  }
+
+  autorizarDoacao(): void {
+    this.service.autorizar(this.doacao).subscribe((resposta) => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Doação autorizada com sucesso.');
+    }, err => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Falha ao autorizar doação. Tente novamente mais tarde.');
+      for(let i= 0; i < err.error.errors.length; i++){
+        this.service.mensagem(err.error.errors[i].message);
+      }
+    }
+
+    );
+
+  }
+
+  demonstrarInteresse(): void {
+    this.service.liberar(this.doacao).subscribe((resposta) => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Doação liberada com sucesso.');
+    }, err => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Falha ao liberar doação. Tente novamente mais tarde.');
+      for(let i= 0; i < err.error.errors.length; i++){
+        this.service.mensagem(err.error.errors[i].message);
+      }
+    }
+
+    );
+  }
+
+  desfazerInteresse(): void {
+    this.service.liberar(this.doacao).subscribe((resposta) => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Doação liberada com sucesso.');
+    }, err => {
+      this.router.navigate(['doacoes']);
+      this.service.mensagem('Falha ao liberar doação. Tente novamente mais tarde.');
+      for(let i= 0; i < err.error.errors.length; i++){
+        this.service.mensagem(err.error.errors[i].message);
+      }
+    }
+
+    );
+
+  }
+
   cancelar(): void {
     this.router.navigate(['doacoes']);
   }
@@ -68,8 +146,31 @@ export class DoacaoUpdateComponent implements OnInit {
   findById(): void {
     this.service.findById(this.doacao.id!).subscribe((doacao) => {
       this.doacao = {...doacao};
+      if(this.doacao.situacao > 1 || this.usuarioAutenticado.perfil !== 2){
+        this.categoria.disable();
+        this.descricao.disable();
+        this.quantidade.disable();
+        this.localRetirada.disable();
+      }
       this.doacao.idCategoria = doacao.idCategoria;
+      this.dataLiberacao = new Date(this.doacao.dataLiberacao);
+      this.dataFinalDemonstracaoInteresse = this.dataLiberacao;
+      this.dataFinalDemonstracaoInteresse.setDate(this.dataFinalDemonstracaoInteresse.getDate() + 15);
     })
+  }
+
+  dataPermiteAutorizarDoacao(): boolean {
+    if(new Date() > this.dataFinalDemonstracaoInteresse){
+      return true;
+    }
+    return false;
+  }
+
+  dataPermiteDemonstrarOuDesfazerInteresse(): boolean {
+    if(new Date() <= this.dataFinalDemonstracaoInteresse){
+      return true;
+    }
+    return false;
   }
 
   retornaMensagemDeErroDescricao() {

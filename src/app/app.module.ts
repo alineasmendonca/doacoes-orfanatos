@@ -47,6 +47,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatOptionModule, MatNativeDateModule, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatPaginatorIntlBr } from './utils/mat-paginator-intl-br';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { MatPaginatorIntlBr } from './utils/mat-paginator-intl-br';
     MatDatepickerModule,
     MatOptionModule,
     MatNativeDateModule,
+    MatTooltipModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

@@ -60,6 +60,16 @@ export class DoacaoService {
     return this.http.put<Doacao>(url, doacao);
   }
 
+  liberar(doacao: Doacao): Observable<Doacao>{
+    const url = `${this.baseUrl}/doacoes/${doacao.id}/liberar`;
+    return this.http.put<Doacao>(url, doacao);
+  }
+
+  autorizar(doacao: Doacao): Observable<Doacao>{
+    const url = `${this.baseUrl}/doacoes/${doacao.id}/autorizar`;
+    return this.http.put<Doacao>(url, doacao);
+  }
+
   mensagem(str: string): void {
     this.snack.open(`${str}`, 'OK', {
       horizontalPosition: 'end',

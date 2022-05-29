@@ -1,6 +1,6 @@
 <div class="content">
     <form #formDoacao="ngForm">
-        <h1>CONSULTAR DOAÇÃO</h1>
+        <h1>Consultar Doação</h1>
         <mat-form-field class="campo">
             <mat-select id="combo-categoria" placeholder="Categoria"
               [(ngModel)]="filtroDoacao.idCategoria" name="categoria" panelClass="positionClass">
@@ -24,9 +24,9 @@
 
         <div class="buttons">
             <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
-            <button *ngIf="perfilUsuarioAutenticado === 2" class="mat-elevation-z8" (click)="incluirDoacao()" mat-stroked-button
-                color="primary">Incluir</button>
             <button (click)="limpar(formDoacao)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
+            <button *ngIf="usuarioAutenticado.perfil === 2" class="mat-elevation-z8" (click)="incluirDoacao()" mat-stroked-button
+                color="primary">Incluir</button>
             <button *ngIf="doacoes.length > 0" (click)="exportar()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Exportar</button>
             <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
@@ -66,10 +66,10 @@
                 <th class="mat-header" mat-header-cell *matHeaderCellDef>Ações</th>
                 <td mat-cell *matCellDef="let row; let i = index">
                     <a class="edit" routerLink="update/{{row.id}}">
-                        <i class="material-icons">edit</i>
+                        <i class="material-icons" matTooltip="Detalhar">edit</i>
                     </a>
-                    <a class="delete" routerLink="delete/{{row.id}}">
-                        <i class="material-icons">delete</i>
+                    <a *ngIf="usuarioAutenticado.perfil === 2" class="delete" routerLink="delete/{{row.id}}">
+                        <i class="material-icons" matTooltip="Remover">delete</i>
                     </a>
                 </td>
             </ng-container>

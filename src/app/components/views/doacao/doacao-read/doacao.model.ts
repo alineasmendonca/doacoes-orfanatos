@@ -6,5 +6,10 @@ export class Doacao {
     descricao?: string;
     quantidade?: number;
     localRetirada?: string;
+    dataCadastro: string;
+    dataLiberacao: Date;
+    dataAutorizacao: string;
+    idDoador: number;
+    situacao: number;
     // Colocar os demais campos aqui
 }

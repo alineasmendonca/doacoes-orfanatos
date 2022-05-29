@@ -1,3 +1,4 @@
+import { Usuario } from './../../user/usuario';
 import { AuthService } from './../../login/auth-service.service';
 import { CategoriaService } from './../../categoria/categoria.service';
 import { Utils } from './../../../../utils/utils';
@@ -21,7 +22,7 @@ export class DoacaoReadComponent implements OnInit {
   id_cat: number = 0;
   filtroDoacao: Doacao = new Doacao();
   categorias: Categoria[] = new Array();
-  perfilUsuarioAutenticado: number | null = 1;
+  usuarioAutenticado: Usuario = new Usuario();
   @ViewChild('tabelaDoacoes') tabelaDoacoes;
 
   constructor(private service: DoacaoService,
@@ -36,9 +37,13 @@ export class DoacaoReadComponent implements OnInit {
       this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
     
     });
-    this.authService.perfilUsuarioCorrente.subscribe((perfil)=>{
-      this.perfilUsuarioAutenticado = perfil;
-    })
+
+    this.authService.usuarioAutenticado.subscribe((usuario)=>{
+      this.usuarioAutenticado = usuario;
+    }, (error)=>{
+      console.log(error);
+    });
+
     this.findAll();
 
   }

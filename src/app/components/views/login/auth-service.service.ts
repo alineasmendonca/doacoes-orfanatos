@@ -31,12 +31,18 @@ export class AuthService {
   private perfilUsuarioCorrenteSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   public perfilUsuarioCorrente: Observable<number> = new Observable<1>();
 
+  private usuarioAutenticadoSubject: BehaviorSubject<Usuario>;
+  public usuarioAutenticado: Observable<Usuario>;
+
   constructor(private http: HttpClient,
     private snack: MatSnackBar,
     private usuarioService: UsuarioService) {
     this.getUser();
     this.perfilUsuarioCorrenteSubject = new BehaviorSubject<number>(1);
     this.perfilUsuarioCorrente = this.perfilUsuarioCorrenteSubject.asObservable();
+
+    this.usuarioAutenticadoSubject = new BehaviorSubject<Usuario>(JSON.parse(localStorage.getItem('currentUser')));
+    this.usuarioAutenticado = this.usuarioAutenticadoSubject.asObservable();
    }
 
   obterToken() {
@@ -108,6 +114,7 @@ export class AuthService {
     filtroUsuarioAutenticado.username = username;
     this.usuarioService.findByFilters(filtroUsuarioAutenticado).subscribe((resposta: Usuario[]) => {
       usuarioAutenticado = resposta[0];
+      this.usuarioAutenticadoSubject.next(usuarioAutenticado);
       if (usuarioAutenticado.perfil != null) {
         perfilUsuarioAutenticado = usuarioAutenticado.perfil;
         this.perfilUsuarioCorrenteSubject.next(perfilUsuarioAutenticado);

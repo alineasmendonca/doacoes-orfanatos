@@ -1,3 +1,5 @@
+import { Usuario } from './../../user/usuario';
+import { AuthService } from './../../login/auth-service.service';
 import { CategoriaService } from './../../categoria/categoria.service';
 import { Categoria } from './../../categoria/categoria-read/categoria.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,12 +22,20 @@ export class DoacaoCreateComponent implements OnInit {
 
   doacao: Doacao = new Doacao();
   categorias: Categoria[] = new Array();
+  usuarioAutenticado: Usuario = new Usuario();
 
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.authService.usuarioAutenticado.subscribe((usuario)=>{
+      this.usuarioAutenticado = usuario;
+    }, (error)=>{
+      console.log(error);
+    });
+
     this.categoriaService.findByFilters(new Categoria()).subscribe((categorias) => {
       this.categorias = categorias;
       this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
@@ -37,13 +47,16 @@ export class DoacaoCreateComponent implements OnInit {
   cadastrarDoacao(): void {
     this.doacao.descricao = this.descricao.value;
     this.doacao.quantidade = this.quantidade.value;
+    this.doacao.localRetirada = this.localRetirada.value;
     this.doacao.idCategoria = this.categoria.value;
+    this.doacao.idDoador = this.usuarioAutenticado.id;
 
     this.service.create(this.doacao).subscribe(()=>{
       this.router.navigate(['doacoes']);
       this.service.mensagem('Doação cadastrada com sucesso.');
 
-    }, (err)=>{
+    }, (error)=>{
+      console.error(error);
       this.router.navigate(['doacoes']);
       this.service.mensagem('Erro ao cadastrar doação. Tente novamente mais tarde.');
     })

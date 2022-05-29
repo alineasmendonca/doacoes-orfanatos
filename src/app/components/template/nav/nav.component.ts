@@ -9,17 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  perfilUsuarioAutenticado: number | null = 1;
   usuarioAutenticado: Usuario = new Usuario();
 
   constructor(private authService: AuthService,
               private router: Router ) { }
 
   ngOnInit(): void {
-    this.authService.perfilUsuarioCorrente.subscribe((perfil)=>{
-      this.perfilUsuarioAutenticado = perfil;
-      console.log('Perfil do Usuário autenticado:', this.perfilUsuarioAutenticado);
-    })
+    this.authService.usuarioAutenticado.subscribe((usuario)=>{
+      this.usuarioAutenticado = usuario;
+    }, (error)=>{
+      console.log(error);
+    });
   }
 
   logout(){

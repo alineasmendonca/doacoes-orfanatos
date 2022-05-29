@@ -1,9 +1,9 @@
 <div class="content">
     <form>
-        <h1>ALTERAR DOAÇÃO</h1>
+        <h1>Detalhar Doação</h1>
         <mat-form-field class="form">
             <mat-select id="combo-categoria" placeholder="Categoria"
-              [(ngModel)]="doacao.idCategoria" name="categoria" [formControl]="categoria" panelClass="positionClass" required>
+              [(ngModel)]="doacao.idCategoria" name="categoria" [formControl]="categoria" panelClass="positionClass" required [disabled]="doacao.situacao > 1 || usuarioAutenticado.perfil !== 2">
               <mat-option></mat-option>
               <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
                 {{ categoria.nome }}
@@ -15,13 +15,13 @@
         <mat-form-field class="form">
             <mat-label>Descrição</mat-label>
             <textarea matInput [(ngModel)]="doacao.descricao" [formControl]="descricao" type="text" name="descricao"
-                placeholder="Ex.: Doação de Latas de Leite Ninho" maxlength="400" required></textarea>
+                placeholder="Ex.: Doação de Latas de Leite Ninho" maxlength="400" required [disabled]="doacao.situacao > 1 || usuarioAutenticado.perfil !== 2"></textarea>
             <mat-error *ngIf="descricao.invalid">{{retornaMensagemDeErroDescricao()}}</mat-error>
         </mat-form-field>
         <mat-form-field class="form">
             <mat-label>Quantidade</mat-label>
             <input matInput [(ngModel)]="doacao.quantidade" [formControl]="quantidade" type="text" name="quantidade"
-                placeholder="Quantidade" maxlength="5" mask="99999" required>
+                placeholder="Quantidade" maxlength="5" mask="99999" required [disabled]="doacao.situacao > 1 || usuarioAutenticado.perfil !== 2">
             <mat-error *ngIf="quantidade.invalid">{{retornaMensagemDeErroQuantidade()}}</mat-error>
         </mat-form-field>
 
@@ -29,16 +29,19 @@
             <mat-label>Local de Retirada</mat-label>
             <textarea matInput [(ngModel)]="doacao.localRetirada" [formControl]="localRetirada" type="text" name="localRetirada"
                 placeholder="Ex.: Avenida Pontes Vieira 125, Bairro São João do Tauape" maxlength="250"
-                cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10"
-                ></textarea>
+                cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" required [disabled]="doacao.situacao > 1 || usuarioAutenticado.perfil !== 2"></textarea>
             <mat-error *ngIf="localRetirada.invalid">{{retornaMensagemDeErroLocalRetirada()}}</mat-error>
         </mat-form-field>
         <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
 
         <div class="buttons">
             <div class="buttons">
-                <button [disabled]="retornaMensagemDeErroDescricao() || retornaMensagemDeErroQuantidade() || retornaMensagemDeErroCategoria() || retornaMensagemDeErroLocalRetirada()" (click)="atualizarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Salvar</button>
-                <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Cancelar</button>
+                <button *ngIf="usuarioAutenticado.perfil === 2 && doacao.situacao === 1" [disabled]="retornaMensagemDeErroDescricao() || retornaMensagemDeErroQuantidade() || retornaMensagemDeErroCategoria() || retornaMensagemDeErroLocalRetirada()" (click)="atualizarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Salvar</button>
+                <button *ngIf="usuarioAutenticado.perfil === 2 && doacao.situacao === 1"  (click)="liberarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Liberar</button>
+                <button *ngIf="usuarioAutenticado.perfil === 1 && doacao.situacao === 2 && dataPermiteAutorizarDoacao()"  (click)="autorizarDoacao()" class="mat-elevation-z8" mat-stroked-button color="primary">Autorizar</button>
+                <button *ngIf="usuarioAutenticado.perfil === 3 && doacao.situacao === 2 && dataPermiteDemonstrarOuDesfazerInteresse()"  (click)="demonstrarInteresse()" class="mat-elevation-z8" mat-stroked-button color="primary">Demonstrar Interesse</button>
+                <button *ngIf="usuarioAutenticado.perfil === 3 && doacao.situacao === 2 && dataPermiteDemonstrarOuDesfazerInteresse()"  (click)="desfazerInteresse()" class="mat-elevation-z8" mat-stroked-button color="primary">Desfazer Interesse</button>
+                <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
             </div>
         </div>
     </form>

@@ -1,6 +1,6 @@
 <div class="content">
     <form #formOrfanato="ngForm">
-        <h1>CONSULTAR ORFANATO</h1>
+        <h1>Consultar Orfanato</h1>
 
         <mat-form-field class="campo">
            <textarea matInput [(ngModel)]="filtroOrfanato.nome" type="text" name="nome"
@@ -13,9 +13,9 @@
 
         <div class="buttons">
             <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
-            <button class="mat-elevation-z8" (click)="incluirOrfanato()" mat-stroked-button
-                color="primary">Incluir</button>
             <button (click)="limpar(formOrfanato)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
+            <button class="mat-elevation-z8" (click)="incluirOrfanato()" mat-stroked-button
+            color="primary">Incluir</button>
             <button *ngIf="orfanatos.length > 0" (click)="exportar()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Exportar</button>
             <button (click)="voltar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>

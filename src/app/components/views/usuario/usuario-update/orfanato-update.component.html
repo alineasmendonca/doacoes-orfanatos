@@ -1,6 +1,6 @@
 <!--<div class="content">
     <form>
-        <h1>ALTERAR ORFANATO</h1>
+        <h1>Detalhar Usuário</h1>
         <mat-form-field class="form">
             <mat-label>Nome</mat-label>
             <textarea matInput [(ngModel)]="orfanato.nome" [formControl]="nome" type="text" name="nome"
@@ -59,7 +59,7 @@
                 [disabled]="retornaMensagemDeErroNome() || retornaMensagemDeErroQuantidadeCriancas() || retornaMensagemDeErroEndereco() || retornaMensagemDeErroHistoria() || retornaMensagemDeErroDataFundacao()"
                 (click)="atualizarOrfanato()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Salvar</button>
-            <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Cancelar</button>
+            <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>
         </div>
     </form>
 </div>-->
