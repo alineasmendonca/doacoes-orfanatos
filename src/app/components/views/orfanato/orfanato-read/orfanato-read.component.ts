@@ -1,3 +1,5 @@
+import { AuthService } from './../../login/auth-service.service';
+import { Usuario } from './../../user/usuario';
 import { Orfanato } from './orfanato.model';
 import { OrfanatoService } from './../orfanato.service';
 import { CategoriaService } from '../../categoria/categoria.service';
@@ -18,14 +20,21 @@ export class OrfanatoReadComponent implements OnInit {
   orfanatos: Orfanato[] = [];
   displayedColumns: string[] = ['nome', 'endereco', 'quantidadeCriancas', 'acoes'];
   id_cat: number = 0;
-  filtroOrfanato:Orfanato = new Orfanato();
+  filtroOrfanato: Orfanato = new Orfanato();
   categorias: Categoria[] = new Array();
   @ViewChild('tabelaOrfanatos') tabelaOrfanatos;
+  usuarioAutenticado: Usuario = new Usuario();
 
   constructor(private service: OrfanatoService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.authService.usuarioAutenticado.subscribe((usuario) => {
+      this.usuarioAutenticado = usuario;
+    }, (error) => {
+      console.log(error);
+    });
     this.findAll();
 
   }
@@ -60,7 +69,7 @@ export class OrfanatoReadComponent implements OnInit {
   }
 
   exportar() {
-    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.tabelaOrfanatos.nativeElement);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.tabelaOrfanatos.nativeElement);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const wscols = [{ wch: 60 }, { wch: 60 }, { wch: 20 }];
     ws['!cols'] = wscols;

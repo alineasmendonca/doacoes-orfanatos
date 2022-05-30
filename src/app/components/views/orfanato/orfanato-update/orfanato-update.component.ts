@@ -1,3 +1,6 @@
+import { Perfil } from './../../../../enums/perfil';
+import { AuthService } from './../../login/auth-service.service';
+import { Usuario } from './../../user/usuario';
 import { OrfanatoService } from './../orfanato.service';
 import { Orfanato } from './../orfanato-read/orfanato.model';
 import { CategoriaService } from '../../categoria/categoria.service';
@@ -23,12 +26,19 @@ export class OrfanatoUpdateComponent implements OnInit {
   telefone = new FormControl('', [Validators.required, Validators.minLength(10)]);
 
   orfanato: Orfanato = new Orfanato();
+  usuarioAutenticado: Usuario = new Usuario();
 
   constructor(private service: OrfanatoService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.authService.usuarioAutenticado.subscribe((usuario)=>{
+      this.usuarioAutenticado = usuario;
+    }, (error)=>{
+      console.log(error);
+    });
     
     this.route
       .params
@@ -37,6 +47,15 @@ export class OrfanatoUpdateComponent implements OnInit {
         this.orfanato.id = Utils.readRouteParam(params, 'id');
         this.findById();
       });
+
+      if(this.usuarioAutenticado.perfil !== Perfil.ADMINISTRATOR){
+        this.nome.disable();
+        this.endereco.disable();
+        this.quantidadeCriancas.disable();
+        this.historia.disable();
+        this.dataFundacao.disable();
+        this.telefone.disable();
+      }
 
   }
 

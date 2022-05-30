@@ -79,7 +79,7 @@
         <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
 
         <div class="buttons">
-            <button
+            <button *ngIf="usuarioAutenticado.perfil === 1"
                 [disabled]="retornaMensagemDeErroNome() || retornaMensagemDeErroQuantidadeCriancas() || retornaMensagemDeErroEndereco() || retornaMensagemDeErroHistoria() || retornaMensagemDeErroDataFundacao()"
                 (click)="atualizarOrfanato()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Alterar</button>

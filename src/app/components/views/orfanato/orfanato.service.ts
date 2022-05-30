@@ -1,3 +1,4 @@
+import { Interesse } from './../doacao/interesse.model';
 import { UtilsService } from '../../../utils/utils-service';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -52,6 +53,18 @@ export class OrfanatoService {
   update(orfanato: Orfanato): Observable<Orfanato>{
     const url = `${this.baseUrl}/orfanatos/${orfanato.id}`;
     return this.http.put<Orfanato>(url, orfanato);
+  }
+
+  public buscarOrfanatosInteressadosPorUmaDoacao(interesse: Interesse): Observable<Orfanato[]> {
+    const url = `${this.baseUrl}/orfanatos/interessados`;
+    const queryParams: HttpParams = UtilsService.buildQueryParams(interesse);
+    
+    return this.http
+      .get<Orfanato[]>(url,
+        {
+          headers: this.headers,
+          params: queryParams
+        });
   }
 
   mensagem(str: string): void {

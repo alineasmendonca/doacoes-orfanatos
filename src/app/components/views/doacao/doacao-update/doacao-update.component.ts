@@ -1,3 +1,5 @@
+import { OrfanatoService } from './../../orfanato/orfanato.service';
+import { Orfanato } from './../../orfanato/orfanato-read/orfanato.model';
 import { Interesse } from './../interesse.model';
 import { InteresseService } from './../interesse.service';
 import { Usuario } from './../../user/usuario';
@@ -35,10 +37,14 @@ export class DoacaoUpdateComponent implements OnInit {
   interessesUsuarioAutenticadoDoacao: Interesse[];
   interesseUsuarioAutenticado: Interesse = null;
 
+  orfanatosInteressados: Orfanato[] = new Array();
+  displayedColumns: string[] = ['nome', 'endereco', 'telefone', 'quantidadeCriancas', 'dataFundacao'];
+
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
     private authService: AuthService,
     private interesseService: InteresseService,
+    private orfanatoService: OrfanatoService,
     private route: ActivatedRoute,
     private router: Router) { 
       this.capturarDemonstracaoDeInteressePeloUsuarioAutenticado();
@@ -65,6 +71,16 @@ export class DoacaoUpdateComponent implements OnInit {
       .subscribe(params => {
         this.doacao.id = Utils.readRouteParam(params, 'id');
         this.findById();
+        let interesse: Interesse = new Interesse();
+        interesse.idDoacao = this.doacao.id;
+
+        this.orfanatoService.buscarOrfanatosInteressadosPorUmaDoacao(interesse).pipe(take(1)).subscribe((orfanatos) => {
+          console.log('Id da doação:', this.doacao.id);
+          this.orfanatosInteressados = orfanatos;
+          this.orfanatosInteressados = _.orderBy(this.orfanatosInteressados, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
+          console.log(JSON.stringify(this.orfanatosInteressados));
+          console.log('Qtd de orfanatos interessados na doação:', this.orfanatosInteressados.length);
+        });
       });
 
   }

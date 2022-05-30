@@ -14,7 +14,7 @@
         <div class="buttons">
             <button (click)="pesquisar()" class="mat-elevation-z8" mat-stroked-button color="primary">Pesquisar</button>
             <button (click)="limpar(formOrfanato)" class="mat-elevation-z8" mat-stroked-button color="warn">Limpar</button>
-            <button class="mat-elevation-z8" (click)="incluirOrfanato()" mat-stroked-button
+            <button *ngIf="usuarioAutenticado.perfil === 1" class="mat-elevation-z8" (click)="incluirOrfanato()" mat-stroked-button
             color="primary">Incluir</button>
             <button *ngIf="orfanatos.length > 0" (click)="exportar()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Exportar</button>
@@ -48,7 +48,7 @@
                     <a class="edit" routerLink="update/{{row.id}}">
                         <i class="material-icons">edit</i>
                     </a>
-                    <a class="delete" routerLink="delete/{{row.id}}">
+                    <a *ngIf="usuarioAutenticado.perfil === 1" class="delete" routerLink="delete/{{row.id}}">
                         <i class="material-icons">delete</i>
                     </a>
                 </td>
