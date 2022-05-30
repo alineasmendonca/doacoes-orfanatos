@@ -1,3 +1,5 @@
+import { Interesse } from './../interesse.model';
+import { InteresseService } from './../interesse.service';
 import { Usuario } from './../../user/usuario';
 import { AuthService } from './../../login/auth-service.service';
 import { CategoriaService } from './../../categoria/categoria.service';
@@ -28,26 +30,33 @@ export class DoacaoUpdateComponent implements OnInit {
   usuarioAutenticado: Usuario = new Usuario();
   dataLiberacao: Date = new Date();
   dataFinalDemonstracaoInteresse: Date = new Date();
+  usuarioDemonstrouInteressePelaDoacao: boolean;
+
+  interessesUsuarioAutenticadoDoacao: Interesse[];
+  interesseUsuarioAutenticado: Interesse = null;
 
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
     private authService: AuthService,
+    private interesseService: InteresseService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) { 
+      this.capturarDemonstracaoDeInteressePeloUsuarioAutenticado();
+    }
 
   ngOnInit(): void {
-    this.authService.usuarioAutenticado.subscribe((usuario)=>{
+    this.authService.usuarioAutenticado.pipe(take(1)).subscribe((usuario) => {
       this.usuarioAutenticado = usuario;
-    }, (error)=>{
+    }, (error) => {
       console.error(error);
     });
 
 
 
-    this.categoriaService.findByFilters(new Categoria()).subscribe((categorias) => {
+    this.categoriaService.findByFilters(new Categoria()).pipe(take(1)).subscribe((categorias) => {
       this.categorias = categorias;
       this.categorias = _.orderBy(this.categorias, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
-    
+
     });
 
     this.route
@@ -61,13 +70,13 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   atualizarDoacao(): void {
-    this.service.update(this.doacao).subscribe((resposta) => {
+    this.service.update(this.doacao).pipe(take(1)).subscribe((resposta) => {
       this.router.navigate(['doacoes']);
       this.service.mensagem('Doação alterada com sucesso.');
     }, err => {
       this.router.navigate(['doacoes']);
       this.service.mensagem('Falha ao alterar doação. Tente novamente mais tarde.');
-      for(let i= 0; i < err.error.errors.length; i++){
+      for (let i = 0; i < err.error.errors.length; i++) {
         this.service.mensagem(err.error.errors[i].message);
       }
     }
@@ -77,13 +86,13 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   liberarDoacao(): void {
-    this.service.liberar(this.doacao).subscribe((resposta) => {
+    this.service.liberar(this.doacao).pipe(take(1)).subscribe((resposta) => {
       this.router.navigate(['doacoes']);
       this.service.mensagem('Doação liberada com sucesso.');
     }, err => {
       this.router.navigate(['doacoes']);
       this.service.mensagem('Falha ao liberar doação. Tente novamente mais tarde.');
-      for(let i= 0; i < err.error.errors.length; i++){
+      for (let i = 0; i < err.error.errors.length; i++) {
         this.service.mensagem(err.error.errors[i].message);
       }
     }
@@ -93,13 +102,13 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   autorizarDoacao(): void {
-    this.service.autorizar(this.doacao).subscribe((resposta) => {
+    this.service.autorizar(this.doacao).pipe(take(1)).subscribe((resposta) => {
       this.router.navigate(['doacoes']);
       this.service.mensagem('Doação autorizada com sucesso.');
     }, err => {
       this.router.navigate(['doacoes']);
       this.service.mensagem('Falha ao autorizar doação. Tente novamente mais tarde.');
-      for(let i= 0; i < err.error.errors.length; i++){
+      for (let i = 0; i < err.error.errors.length; i++) {
         this.service.mensagem(err.error.errors[i].message);
       }
     }
@@ -109,33 +118,66 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   demonstrarInteresse(): void {
-    this.service.liberar(this.doacao).subscribe((resposta) => {
+
+    let interesse: Interesse = new Interesse();
+    interesse.idDoacao = this.doacao.id;
+    interesse.idOrfanatoInteressado = this.usuarioAutenticado.idOrfanato;
+    interesse.idUsuarioInteressado = this.usuarioAutenticado.id;
+
+    this.interesseService.create(interesse).pipe(take(1)).subscribe((resposta) => {
       this.router.navigate(['doacoes']);
-      this.service.mensagem('Doação liberada com sucesso.');
+      this.service.mensagem('Demonstração de interesse incluída com sucesso.');
+      this.usuarioDemonstrouInteressePelaDoacao = true;
     }, err => {
       this.router.navigate(['doacoes']);
-      this.service.mensagem('Falha ao liberar doação. Tente novamente mais tarde.');
-      for(let i= 0; i < err.error.errors.length; i++){
+      this.service.mensagem('Falha ao demonstrar interesse pela doação. Tente novamente mais tarde.');
+      for (let i = 0; i < err?.error?.errors?.length; i++) {
         this.service.mensagem(err.error.errors[i].message);
       }
     }
-
     );
   }
 
-  desfazerInteresse(): void {
-    this.service.liberar(this.doacao).subscribe((resposta) => {
-      this.router.navigate(['doacoes']);
-      this.service.mensagem('Doação liberada com sucesso.');
-    }, err => {
-      this.router.navigate(['doacoes']);
-      this.service.mensagem('Falha ao liberar doação. Tente novamente mais tarde.');
-      for(let i= 0; i < err.error.errors.length; i++){
-        this.service.mensagem(err.error.errors[i].message);
-      }
-    }
+  capturarDemonstracaoDeInteressePeloUsuarioAutenticado(): void  {
+    this.interesseService.findAll().pipe(take(1)).subscribe((interesses) => {
+      this.interessesUsuarioAutenticadoDoacao = interesses;
+      console.log('Antes');
+      this.interessesUsuarioAutenticadoDoacao = this.interessesUsuarioAutenticadoDoacao.filter((interesse) => interesse.idDoacao == this.doacao.id &&
+        interesse.idUsuarioInteressado === this.usuarioAutenticado.id &&
+        interesse.idOrfanatoInteressado === this.usuarioAutenticado.idOrfanato);
+        this.usuarioDemonstrouInteressePelaDoacao = (this.interessesUsuarioAutenticadoDoacao?.length > 0);
+        console.log('Usuario demonstrou interesse?',this.usuarioDemonstrouInteressePelaDoacao);
+      // console.log("Interesses cadastrados pelo usuário:", JSON.stringify(this.interessesUsuarioAutenticadoDoacao));
+    }, (error) => {
+      console.error(error);
+    });
+  }
 
-    );
+  // Implementar
+  desfazerInteresse(): void {
+
+    let interesse: Interesse = new Interesse();
+    interesse.idDoacao = this.doacao.id;
+    interesse.idOrfanatoInteressado = this.usuarioAutenticado.idOrfanato;
+    interesse.idUsuarioInteressado = this.usuarioAutenticado.id;
+
+    console.log('Interesse:', JSON.stringify(interesse));
+
+    this.interessesUsuarioAutenticadoDoacao.forEach((interesse) => {
+      this.interesseService.delete(interesse.id).pipe(take(1)).subscribe((resposta) => {
+        this.router.navigate(['doacoes']);
+        this.service.mensagem('Demonstração de interesse excluída com sucesso.');
+        this.usuarioDemonstrouInteressePelaDoacao = false;
+      }, err => {
+        this.router.navigate(['doacoes']);
+        this.service.mensagem('Falha ao desfazer interesse pela doação. Tente novamente mais tarde.');
+        for (let i = 0; i < err?.error?.errors?.length; i++) {
+          this.service.mensagem(err.error.errors[i].message);
+        }
+      }
+      );
+    })
+
 
   }
 
@@ -144,9 +186,9 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   findById(): void {
-    this.service.findById(this.doacao.id!).subscribe((doacao) => {
-      this.doacao = {...doacao};
-      if(this.doacao.situacao > 1 || this.usuarioAutenticado.perfil !== 2){
+    this.service.findById(this.doacao.id!).pipe(take(1)).subscribe((doacao) => {
+      this.doacao = { ...doacao };
+      if (this.doacao.situacao > 1 || this.usuarioAutenticado.perfil !== 2) {
         this.categoria.disable();
         this.descricao.disable();
         this.quantidade.disable();
@@ -160,34 +202,34 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   dataPermiteAutorizarDoacao(): boolean {
-    if(new Date() > this.dataFinalDemonstracaoInteresse){
+    if (new Date() > this.dataFinalDemonstracaoInteresse) {
       return true;
     }
     return false;
   }
 
   dataPermiteDemonstrarOuDesfazerInteresse(): boolean {
-    if(new Date() <= this.dataFinalDemonstracaoInteresse){
+    if (new Date() <= this.dataFinalDemonstracaoInteresse) {
       return true;
     }
     return false;
   }
 
   retornaMensagemDeErroDescricao() {
-    if(this.descricao.hasError('required')){
+    if (this.descricao.hasError('required')) {
       return 'O campo Descrição é obrigatório.';
     }
-    if(this.descricao.invalid){
+    if (this.descricao.invalid) {
       return 'O campo Descrição deve ter pelo menos 5 caracteres.';
     }
     return false;
   }
 
   retornaMensagemDeErroQuantidade() {
-    if(this.quantidade.hasError('required')){
+    if (this.quantidade.hasError('required')) {
       return 'O campo Quantidade é obrigatório.';
     }
-    if(this.quantidade.hasError('min')){
+    if (this.quantidade.hasError('min')) {
       return 'O campo Quantidade deve ser maior do que zero.';
     }
 
@@ -195,17 +237,17 @@ export class DoacaoUpdateComponent implements OnInit {
   }
 
   retornaMensagemDeErroCategoria() {
-    if(this.categoria.hasError('required')){
+    if (this.categoria.hasError('required')) {
       return 'O campo Categoria é obrigatório.';
     }
     return false;
   }
 
   retornaMensagemDeErroLocalRetirada() {
-    if(this.localRetirada.hasError('required')){
+    if (this.localRetirada.hasError('required')) {
       return 'O campo Local de Retirada é obrigatório.';
     }
-    if(this.localRetirada.invalid){
+    if (this.localRetirada.invalid) {
       return 'O campo Local de Retirada deve ter pelo menos 3 caracteres.';
     }
     return false;
