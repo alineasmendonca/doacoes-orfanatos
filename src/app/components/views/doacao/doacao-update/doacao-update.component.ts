@@ -1,3 +1,4 @@
+import { SituacaoDoacao } from './../../../../enums/situacao-doacao';
 import { OrfanatoService } from './../../orfanato/orfanato.service';
 import { Orfanato } from './../../orfanato/orfanato-read/orfanato.model';
 import { Interesse } from './../interesse.model';
@@ -38,7 +39,10 @@ export class DoacaoUpdateComponent implements OnInit {
   interesseUsuarioAutenticado: Interesse = null;
 
   orfanatosInteressados: Orfanato[] = new Array();
+  orfanatosContemplados: Orfanato[] = new Array();
   displayedColumns: string[] = ['nome', 'endereco', 'telefone', 'quantidadeCriancas', 'dataFundacao'];
+
+  orfanatoContemplado: Orfanato;
 
   constructor(private service: DoacaoService,
     private categoriaService: CategoriaService,
@@ -46,9 +50,9 @@ export class DoacaoUpdateComponent implements OnInit {
     private interesseService: InteresseService,
     private orfanatoService: OrfanatoService,
     private route: ActivatedRoute,
-    private router: Router) { 
-      this.capturarDemonstracaoDeInteressePeloUsuarioAutenticado();
-    }
+    private router: Router) {
+    this.capturarDemonstracaoDeInteressePeloUsuarioAutenticado();
+  }
 
   ngOnInit(): void {
     this.authService.usuarioAutenticado.pipe(take(1)).subscribe((usuario) => {
@@ -77,9 +81,19 @@ export class DoacaoUpdateComponent implements OnInit {
         this.orfanatoService.buscarOrfanatosInteressadosPorUmaDoacao(interesse).pipe(take(1)).subscribe((orfanatos) => {
           console.log('Id da doação:', this.doacao.id);
           this.orfanatosInteressados = orfanatos;
+          // this.orfanatosInteressados.forEach((orfanato)=> orfanato.dataFundacaoFormatada = ((orfanato.dataFundacao.getDate() )) + "/" + ((orfanato.dataFundacao.getMonth() + 1)) + "/" + orfanato.dataFundacao.getFullYear())
           this.orfanatosInteressados = _.orderBy(this.orfanatosInteressados, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
           console.log(JSON.stringify(this.orfanatosInteressados));
           console.log('Qtd de orfanatos interessados na doação:', this.orfanatosInteressados.length);
+        });
+
+        this.orfanatoService.recuperarOrfanatoContemplado(interesse).pipe(take(1)).subscribe((orfanatos) => {
+          console.log('Id da doação:', this.doacao.id);
+          this.orfanatosContemplados = orfanatos;
+          // this.orfanatosInteressados.forEach((orfanato)=> orfanato.dataFundacaoFormatada = ((orfanato.dataFundacao.getDate() )) + "/" + ((orfanato.dataFundacao.getMonth() + 1)) + "/" + orfanato.dataFundacao.getFullYear())
+          // this.orfanatosContemplados = _.orderBy(this.orfanatosContemplados, [i => i?.nome?.toLocaleLowerCase()], ['asc']);
+          console.log(JSON.stringify(this.orfanatosContemplados));
+          console.log('Qtd de orfanatos contemplados na doação:', this.orfanatosContemplados.length);
         });
       });
 
@@ -154,15 +168,15 @@ export class DoacaoUpdateComponent implements OnInit {
     );
   }
 
-  capturarDemonstracaoDeInteressePeloUsuarioAutenticado(): void  {
+  capturarDemonstracaoDeInteressePeloUsuarioAutenticado(): void {
     this.interesseService.findAll().pipe(take(1)).subscribe((interesses) => {
       this.interessesUsuarioAutenticadoDoacao = interesses;
       console.log('Antes');
       this.interessesUsuarioAutenticadoDoacao = this.interessesUsuarioAutenticadoDoacao.filter((interesse) => interesse.idDoacao == this.doacao.id &&
         interesse.idUsuarioInteressado === this.usuarioAutenticado.id &&
         interesse.idOrfanatoInteressado === this.usuarioAutenticado.idOrfanato);
-        this.usuarioDemonstrouInteressePelaDoacao = (this.interessesUsuarioAutenticadoDoacao?.length > 0);
-        console.log('Usuario demonstrou interesse?',this.usuarioDemonstrouInteressePelaDoacao);
+      this.usuarioDemonstrouInteressePelaDoacao = (this.interessesUsuarioAutenticadoDoacao?.length > 0);
+      console.log('Usuario demonstrou interesse?', this.usuarioDemonstrouInteressePelaDoacao);
       // console.log("Interesses cadastrados pelo usuário:", JSON.stringify(this.interessesUsuarioAutenticadoDoacao));
     }, (error) => {
       console.error(error);
@@ -214,10 +228,19 @@ export class DoacaoUpdateComponent implements OnInit {
       this.dataLiberacao = new Date(this.doacao.dataLiberacao);
       this.dataFinalDemonstracaoInteresse = this.dataLiberacao;
       this.dataFinalDemonstracaoInteresse.setDate(this.dataFinalDemonstracaoInteresse.getDate() + 15);
-    })
+
+      if (this.doacao.situacao === SituacaoDoacao.AUTORIZADA) {
+        this.orfanatoService.findById(this.doacao.idOrfanatoContemplado).
+          pipe(take(1)).
+          subscribe((orfanatoContemplado) => {
+            this.orfanatoContemplado = orfanatoContemplado;
+          });
+      }
+    });
   }
 
   dataPermiteAutorizarDoacao(): boolean {
+    console.log(this.dataFinalDemonstracaoInteresse);
     if (new Date() > this.dataFinalDemonstracaoInteresse) {
       return true;
     }

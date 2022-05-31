@@ -5,6 +5,7 @@ export class Orfanato {
     quantidadeCriancas?: number;
     endereco?:string;
     historia?:string;
-    dataFundacao?:string;
+    dataFundacao?:Date;
+    dataFundacaoFormatada: string;
     telefone?: string;
 }

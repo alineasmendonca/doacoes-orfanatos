@@ -1,3 +1,4 @@
+import { GraficosComponent } from './graficos/graficos.component';
 import { UsuarioReadComponent } from './components/views/usuario/usuario-read/usuario-read.component';
 import { OrfanatoUpdateComponent } from './components/views/orfanato/orfanato-update/orfanato-update.component';
 import { OrfanatoDeleteComponent } from './components/views/orfanato/orfanato-delete/orfanato-delete.component';
@@ -102,7 +103,13 @@ const routes: Routes = [
         path:'usuarios/delete/:id',
         component: UsuarioDeleteComponent,
         canActivate : [AuthGuard]
-      }/*,
+      },
+      {
+        path:'graficos',
+        component: GraficosComponent,
+        canActivate : [AuthGuard]
+      }
+      /*,
       {
         path:'orfanatos/update/:id',
         component: OrfanatoUpdateComponent,

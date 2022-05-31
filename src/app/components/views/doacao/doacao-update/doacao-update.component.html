@@ -74,6 +74,15 @@
             </div>
         </div>
 
+       <div *ngIf="doacao.situacao === 3">
+            <span>Dados do Orfanato contemplado com a doação</span><br>
+            <span><strong>Nome: </strong></span>{{orfanatoContemplado?.nome}}<br>
+            <span><strong>Endereço: </strong></span>{{orfanatoContemplado?.endereco}}<br>
+            <span><strong>Telefone: </strong></span>{{orfanatoContemplado?.telefone}}<br>
+            <span><strong>Quantidade de crianças: </strong></span>{{orfanatoContemplado?.quantidadeCriancas}}<br>
+            <span><strong>Data da Fundação: </strong></span>{{orfanatoContemplado?.dataFundacao}}<br>
+        </div>
+
         <div class="buttons">
             <button *ngIf="usuarioAutenticado.perfil === 2 && doacao.situacao === 1"
                 [disabled]="retornaMensagemDeErroDescricao() || retornaMensagemDeErroQuantidade() || retornaMensagemDeErroCategoria() || retornaMensagemDeErroLocalRetirada()"

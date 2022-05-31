@@ -1,0 +1,25 @@
+<div class="content">
+    <form #formCategoria="ngForm">
+        <h1>Gráficos</h1>
+        <mat-form-field class="campo">
+            <mat-select id="perfil" placeholder="Escolha o Gráfico" [(ngModel)]="grafico"
+                name="grafico" panelClass="positionClass" (selectionChange)="exibeGrafico()" required>
+                <mat-option></mat-option>
+                <mat-option [value]=1>Quantidade de Usuários por Perfil</mat-option>
+                <mat-option [value]=2>Quantidade de Doações por mês</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+
+<div class="wrapper" [hidden]="grafico === 2">
+    <canvas #qtdUsuariosPorPerfil width="600" height="200">
+      <!-- class="chart-container" style="position: relative; height:40vh; width:80vw"-->
+    </canvas>
+</div>
+
+<div [hidden]="grafico === 1">
+    <canvas #qtdDoacoesMensal class="chart-container" width="600" height="200">
+         <!-- class="chart-container" style="position: relative; height:40vh; width:80vw"-->
+    </canvas>
+</div>

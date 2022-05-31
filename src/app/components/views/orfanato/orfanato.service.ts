@@ -67,6 +67,18 @@ export class OrfanatoService {
         });
   }
 
+  public recuperarOrfanatoContemplado(interesse: Interesse): Observable<Orfanato[]> {
+    const url = `${this.baseUrl}/orfanatos/orfanatocontemplado`;
+    const queryParams: HttpParams = UtilsService.buildQueryParams(interesse);
+    
+    return this.http
+      .get<Orfanato[]>(url,
+        {
+          headers: this.headers,
+          params: queryParams
+        });
+  }
+
   mensagem(str: string): void {
     this.snack.open(`${str}`, 'OK', {
       horizontalPosition: 'end',
