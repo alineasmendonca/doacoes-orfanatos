@@ -49,7 +49,7 @@ export class DoacaoReadComponent implements OnInit {
     this.authService.usuarioAutenticado.subscribe((usuario) => {
       this.usuarioAutenticado = usuario;
     }, (error) => {
-      console.log(error);
+      console.error(error);
     });
 
     this.findAll();
@@ -74,9 +74,7 @@ export class DoacaoReadComponent implements OnInit {
   }
 
   pesquisar(): void {
-    console.log('Filtros doação:', JSON.stringify(this.filtroDoacao));
     this.service.findByFilters(this.filtroDoacao).subscribe(resposta => {
-      console.log(JSON.stringify(resposta));
       this.ajustaDoacoes(resposta);
     })
   }

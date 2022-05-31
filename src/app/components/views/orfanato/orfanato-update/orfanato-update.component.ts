@@ -24,6 +24,7 @@ export class OrfanatoUpdateComponent implements OnInit {
   historia = new FormControl('', [Validators.required, Validators.minLength(10)]);
   dataFundacao = new FormControl('', [Validators.required, Validators.minLength(8)]);
   telefone = new FormControl('', [Validators.required, Validators.minLength(10)]);
+  email = new FormControl('', [Validators.required, Validators.minLength(10), Validators.email]);
 
   orfanato: Orfanato = new Orfanato();
   usuarioAutenticado: Usuario = new Usuario();
@@ -37,7 +38,7 @@ export class OrfanatoUpdateComponent implements OnInit {
     this.authService.usuarioAutenticado.subscribe((usuario)=>{
       this.usuarioAutenticado = usuario;
     }, (error)=>{
-      console.log(error);
+      console.error(error);
     });
     
     this.route
@@ -87,6 +88,7 @@ export class OrfanatoUpdateComponent implements OnInit {
       this.orfanato.quantidadeCriancas = resposta.quantidadeCriancas;
       this.orfanato.historia = resposta.historia;
       this.orfanato.telefone = resposta.telefone;
+      this.orfanato.email = resposta.email;
     })
   }
 
@@ -146,6 +148,21 @@ export class OrfanatoUpdateComponent implements OnInit {
     }
     if(this.telefone.hasError('minlength')){
       return 'O campo Telefone deve ter 10 dígitos.';
+    }
+    return false;
+  }
+
+  retornaMensagemErro(formControl: FormControl, nomeCampo: string, tamanhoMinimo: number): string | boolean {
+    if (formControl.hasError('required')) {
+      return `O campo ${nomeCampo} é obrigatório`;
+    } else {
+      if (formControl.hasError('minlength')) {
+        return `O campo ${nomeCampo} deve ter pelo menos ${tamanhoMinimo} caracteres`;
+      } else {
+        if (formControl.hasError('email')) {
+          return `O campo é ${nomeCampo} inválido`;
+        }
+      }
     }
     return false;
   }

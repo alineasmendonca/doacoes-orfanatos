@@ -40,8 +40,8 @@
         <!--Falta acrescentar o Combo Categoria e carregar todas as categorias no mesmo-->
 
         <div *ngIf="orfanatosInteressados.length > 0 && usuarioAutenticado.perfil === 1">
-            <span><strong>Lista de Orfanatos Interessados pela Doação</strong></span>
-            <div class="mat-elevation-z8 content-table">
+            <span>Lista de Orfanatos Interessados pela Doação</span>
+            <div class="mat-elevation-z8 content-table tabela-interessados">
                 <table class="table" mat-table [dataSource]="orfanatosInteressados">
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -74,14 +74,18 @@
             </div>
         </div>
 
-       <div *ngIf="doacao.situacao === 3">
-            <span>Dados do Orfanato contemplado com a doação</span><br>
-            <span><strong>Nome: </strong></span>{{orfanatoContemplado?.nome}}<br>
-            <span><strong>Endereço: </strong></span>{{orfanatoContemplado?.endereco}}<br>
-            <span><strong>Telefone: </strong></span>{{orfanatoContemplado?.telefone}}<br>
-            <span><strong>Quantidade de crianças: </strong></span>{{orfanatoContemplado?.quantidadeCriancas}}<br>
-            <span><strong>Data da Fundação: </strong></span>{{orfanatoContemplado?.dataFundacao}}<br>
-        </div>
+        <mat-card class="card-orfanato-contemplado" *ngIf="doacao.situacao === 3">
+            <mat-card-header>
+                <mat-card-title>Dados do Orfanato Contemplado</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <span>Nome: </span>{{orfanatoContemplado?.nome}}<br>
+                <span>Endereço: </span>{{orfanatoContemplado?.endereco}}<br>
+                <span>Telefone: </span>{{orfanatoContemplado?.telefone}}<br>
+                <span>Quantidade de crianças: </span>{{orfanatoContemplado?.quantidadeCriancas}}<br>
+                <span>Data da Fundação: </span>{{orfanatoContemplado?.dataFundacao}}<br>
+            </mat-card-content>
+        </mat-card>
 
         <div class="buttons">
             <button *ngIf="usuarioAutenticado.perfil === 2 && doacao.situacao === 1"

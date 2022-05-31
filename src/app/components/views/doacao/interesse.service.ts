@@ -44,8 +44,6 @@ export class InteresseService {
 
   create(interesse: Interesse): Observable<Interesse>{
     const url = `${this.baseUrl}/interesses`;
-    console.log('Interesse dentro do metrodo create:', JSON.stringify(interesse));
-    console.log('Url:', url);
     return this.http.post<Interesse>(url, interesse);
   }
 

@@ -62,6 +62,14 @@
         </mat-form-field>
 
         <mat-form-field class="form">
+            <mat-label>E-mail</mat-label>
+            <input matInput [(ngModel)]="orfanato.email" [formControl]="email" type="text"
+                name="email" placeholder="Digite seu e-mail" required>
+            <mat-error *ngIf="email.invalid">{{retornaMensagemErro(email, 'E-mail', 10)}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form">
             <input matInput id="dataFundacao" matInput placeholder="Data da Fundação" type="text"
                 name="dataFundacao" (click)="picker3.open()"
                 [(ngModel)]="orfanato.dataFundacao" [formControl]="dataFundacao" [matDatepicker]="picker3" readonly required>
@@ -80,7 +88,7 @@
 
         <div class="buttons">
             <button
-                [disabled]="retornaMensagemDeErroNome() || retornaMensagemDeErroQuantidadeCriancas() || retornaMensagemDeErroEndereco() || retornaMensagemDeErroHistoria() || retornaMensagemDeErroDataFundacao()"
+                [disabled]="retornaMensagemDeErroNome() || retornaMensagemDeErroQuantidadeCriancas() || retornaMensagemDeErroEndereco() || retornaMensagemDeErroHistoria() || retornaMensagemDeErroDataFundacao() || email.invalid"
                 (click)="cadastrarOrfanato()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Salvar</button>
             <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>

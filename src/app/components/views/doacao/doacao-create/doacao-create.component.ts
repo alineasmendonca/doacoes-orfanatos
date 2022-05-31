@@ -33,7 +33,7 @@ export class DoacaoCreateComponent implements OnInit {
     this.authService.usuarioAutenticado.subscribe((usuario)=>{
       this.usuarioAutenticado = usuario;
     }, (error)=>{
-      console.log(error);
+      console.error(error);
     });
 
     this.categoriaService.findByFilters(new Categoria()).subscribe((categorias) => {
@@ -50,8 +50,6 @@ export class DoacaoCreateComponent implements OnInit {
     this.doacao.localRetirada = this.localRetirada.value;
     this.doacao.idCategoria = this.categoria.value;
     this.doacao.idDoador = this.usuarioAutenticado.id;
-
-    console.log('Doação para cadastro:', JSON.stringify(this.doacao));
 
     this.service.create(this.doacao).subscribe(()=>{
       this.router.navigate(['doacoes']);

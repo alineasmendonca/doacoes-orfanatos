@@ -60,6 +60,14 @@
                 name="telefone" placeholder="Telefone" maxlength="12" mask="(00)00000000" required>
             <mat-error *ngIf="telefone.invalid">{{retornaMensagemDeErroTelefone()}}</mat-error>
         </mat-form-field>
+
+        <mat-form-field class="form">
+            <mat-label>E-mail</mat-label>
+            <input matInput [(ngModel)]="orfanato.email" [formControl]="email" type="text"
+                name="email" placeholder="Digite seu e-mail" required>
+            <mat-error *ngIf="email.invalid">{{retornaMensagemErro(email, 'E-mail', 10)}}
+            </mat-error>
+        </mat-form-field>
         
         <mat-form-field class="form">
             <input matInput id="dataFundacao" matInput placeholder="Data da Fundação" type="text"
@@ -80,7 +88,7 @@
 
         <div class="buttons">
             <button *ngIf="usuarioAutenticado.perfil === 1"
-                [disabled]="retornaMensagemDeErroNome() || retornaMensagemDeErroQuantidadeCriancas() || retornaMensagemDeErroEndereco() || retornaMensagemDeErroHistoria() || retornaMensagemDeErroDataFundacao()"
+                [disabled]="retornaMensagemDeErroNome() || retornaMensagemDeErroQuantidadeCriancas() || retornaMensagemDeErroEndereco() || retornaMensagemDeErroHistoria() || retornaMensagemDeErroDataFundacao() || email.invalid"
                 (click)="atualizarOrfanato()" class="mat-elevation-z8" mat-stroked-button
                 color="primary">Alterar</button>
             <button (click)="cancelar()" class="mat-elevation-z8" mat-stroked-button color="warn">Voltar</button>

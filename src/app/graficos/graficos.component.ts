@@ -31,8 +31,6 @@ export class GraficosComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioService.findByFilters(new Usuario()).pipe(take(1)).subscribe((usuarios) => {
-      console.log(JSON.stringify(usuarios));
-      console.log('Qtd usuários cadastrados:', usuarios.length);
       this.usuariosComPerfilAdministrador = usuarios.filter((usuario) => usuario.perfil === Perfil.ADMINISTRATOR);
       this.usuariosComPerfilDoador = usuarios.filter((usuario) => usuario.perfil === Perfil.DOADOR);
       this.usuariosComPerfilResponsavelOrfanato = usuarios.filter((usuario) => usuario.perfil === Perfil.RESPONSAVEL_ORFANATO);
@@ -62,7 +60,6 @@ export class GraficosComponent implements OnInit {
     }
     
     if (this.grafico === 1) {
-      console.log('Entrei aqui 1');
       this.chartDoacaoMensal = new Chart(this.graficoUsuariosPorPerfil.nativeElement, {
         type: 'bar',
         data: {
@@ -77,7 +74,6 @@ export class GraficosComponent implements OnInit {
     }
 
     if (this.grafico === 2) {
-      console.log('Entrei aqui 1');
       this.chartUsuariosPorPerfil = new Chart(this.graficoDoacaoMensal.nativeElement, {
         type: 'line',
         data: {

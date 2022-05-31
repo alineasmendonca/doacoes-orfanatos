@@ -18,7 +18,7 @@ export class NavComponent implements OnInit {
     this.authService.usuarioAutenticado.subscribe((usuario)=>{
       this.usuarioAutenticado = usuario;
     }, (error)=>{
-      console.log(error);
+      console.error(error);
     });
   }
 

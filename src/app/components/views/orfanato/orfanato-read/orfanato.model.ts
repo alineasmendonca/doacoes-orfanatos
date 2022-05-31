@@ -8,4 +8,5 @@ export class Orfanato {
     dataFundacao?:Date;
     dataFundacaoFormatada: string;
     telefone?: string;
+    email?: string;
 }
